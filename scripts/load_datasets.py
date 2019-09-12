@@ -15,7 +15,7 @@ class Loader:
 
     def __init__(self, model_name, param):
 
-        self.directory = '../../results/' + model_name
+        self.directory = 'results/' + model_name
         if not os.path.exists( self.directory ):
             os.makedirs( self.directory )
 
@@ -36,22 +36,22 @@ class Loader:
     # load the datasets of the greenhouses. This need to be windowed, later
     def load_original_datasets(self):
         # import data
-        df_col = pd.read_csv('../../Data/zineg_11_16/col_11-16.clean2.csv', parse_dates=['Timestamp'])
+        df_col = pd.read_csv('Data/zineg_11_16/col_11-16.clean2.csv', parse_dates=['Timestamp'])
         if self.parameters.get('verbosity_level') > 0:
             print('df_col ')
             print(df_col[100:110])
 
-        df_ref = pd.read_csv( '../../Data/zineg_11_16/ref_11-16.clean2.csv', parse_dates=['Timestamp'] )
+        df_ref = pd.read_csv( 'Data/zineg_11_16/ref_11-16.clean2.csv', parse_dates=['Timestamp'] )
         if self.parameters.get('verbosity_level')>0:
             print('df_ref ')
             print(df_ref[100:110])
 
-        df_neber1 = pd.read_csv('../../Data/zineg_11_16/neber-18.test2a.clean.csv', parse_dates=['Timestamp'])
+        df_neber1 = pd.read_csv('Data/zineg_11_16/neber-18.test2a.clean.csv', parse_dates=['Timestamp'])
         if self.parameters.get('verbosity_level') > 0:
             print('df_neber1 ')
             print(df_ref[100:110])
 
-        df_neber2 = pd.read_csv( '../../Data/zineg_11_16/neber-18.test2b.clean.csv', parse_dates=['Timestamp'] )
+        df_neber2 = pd.read_csv( 'Data/zineg_11_16/neber-18.test2b.clean.csv', parse_dates=['Timestamp'] )
         if self.parameters.get('verbosity_level')>0:
             print('df_neber2 ')
             print(df_neber2[100:110])

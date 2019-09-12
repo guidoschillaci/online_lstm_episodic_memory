@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     experiment_repetitions = 1
 
-    if not os.path.isfile('../../results/design_of_experiments.csv'):
+    if not os.path.isfile('results/design_of_experiments.csv'):
 
         # consider other methods than full factiorial, if having too many parameters
         # https://doepy.readthedocs.io/en/latest/
@@ -39,9 +39,9 @@ if __name__ == "__main__":
         )
 
         # write down to a file the experiments
-        read_write.write_csv(doe,filename='../../results/design_of_experiments.csv')
+        read_write.write_csv(doe,filename='results/design_of_experiments.csv')
     else:
-        data_in = read_write.read_variables_csv('../../results/design_of_experiments.csv')
+        data_in = read_write.read_variables_csv('results/design_of_experiments.csv')
         doe = build.full_fact(data_in)
 
 
@@ -71,7 +71,7 @@ if __name__ == "__main__":
 
             paramet.set('directory', model_name)
             #print (os.path.isdir('../../results/' + paramet.get('directory') ))
-            if not os.path.isdir('../../results/' + paramet.get('directory') ):
+            if not os.path.isdir('results/' + paramet.get('directory') ):
 
                 print ('************************************************')
                 print ('************************************************')
