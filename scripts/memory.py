@@ -1,6 +1,7 @@
 import numpy as np
 import random
 from parameters import Parameters, MemUpdateStrategy
+from copy import deepcopy
 
 class Memory:
 
