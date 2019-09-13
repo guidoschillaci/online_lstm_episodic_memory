@@ -85,7 +85,7 @@ class Model:
                                    batch_size=self.parameters.get('batch_size'))  # , callbacks=[ earlystop, tbCallBack ] )
 
                 if self.parameters.get('memory_update_strategy') == MemUpdateStrategy.HIGH_LEARNING_PROGRESS.value or self.parameters.get('memory_update_strategy') == MemUpdateStrategy.LOW_LEARNING_PROGRESS.value:
-                    #print ('updating learning progress for each memory element')
+                    print ('updating learning progress for each memory element')
                     self.memory.update_learning_progress(self.recurrent)
 
                 # print 'current memory output' # to not print the full windows, just print the output and check if things are slowly changing

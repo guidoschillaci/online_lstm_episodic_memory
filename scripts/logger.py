@@ -1,3 +1,5 @@
+import numpy as np
+from copy import deepcopy
 
 class Logger:
 
@@ -25,7 +27,8 @@ class Logger:
         self.input_variances.append(input_var)
         self.output_variances.append(output_var)
         self.count_of_changed_memory_elements.append(count_of_changed_memory_elements)
-        self.learning_progress.append(learning_progress)
+        self.learning_progress.append(deepcopy(learning_progress))
+        print (str(self.learning_progress))
 
     def switch_dataset(self):
         self.switch_time.append(len(self.mse))

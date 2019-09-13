@@ -93,6 +93,6 @@ class Memory:
         predictions = model.predict( np.asarray(self.input_variables) )
         for i in range (len  (self.output_variables) ):
             prediction_error = (np.linalg.norm(predictions[i] - self.output_variables[i]) ** 2)
-            self.prediction_errors[i].append(prediction_error)
+            self.prediction_errors[i].append(deepcopy(prediction_error))
             if len ( self.prediction_errors[i]) >= 2:
                 self.learning_progress[i] = np.fabs(self.prediction_errors[i][-1] - self.prediction_errors[i][-2])
