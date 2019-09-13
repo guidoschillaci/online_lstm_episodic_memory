@@ -28,7 +28,7 @@ class Logger:
         self.output_variances.append(output_var)
         self.count_of_changed_memory_elements.append(count_of_changed_memory_elements)
         self.learning_progress.append(deepcopy(learning_progress))
-        print (str(self.learning_progress))
+        #print (str(self.learning_progress))
 
     def switch_dataset(self):
         self.switch_time.append(len(self.mse))
