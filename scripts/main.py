@@ -20,7 +20,7 @@ else:
 
 if __name__ == "__main__":
 
-    experiment_repetitions = 1
+    experiment_repetitions = 5
 
     if not os.path.isfile('results/design_of_experiments.csv'):
 

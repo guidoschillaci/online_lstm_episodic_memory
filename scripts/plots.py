@@ -7,7 +7,7 @@ import pickle
 
 if __name__ == "__main__":
     main_path = 'results/'
-    directory = main_path + 'exp_0_iter_0' + '/'
+    directory = main_path + 'exp_2_iter_0' + '/'
 
 
     #parameters = pickle.load(open(directory + 'parameters.pkl', 'rb'))
@@ -18,23 +18,24 @@ if __name__ == "__main__":
     mem_index = np.load(directory + 'memory_index_proportions.npy')
     mem_label = np.load(directory + 'mse_memory_label.npy')
     switch_time = np.load(directory + 'switch_time.npy')
-    learning_progress = np.load(directory + 'learning_progress.npy', allow_pickle=True)
+    #learning_progress = np.load(directory + 'learning_progress.npy', allow_pickle=True)
 
-    print (str(type(learning_progress)))
-    learning_progress = np.array(learning_progress[:,:499], dtype=float)
-    print(str(type(learning_progress)))
-    print (str(np.asarray(learning_progress[:,:])))
-    print (str(np.asarray(learning_progress).shape))
+    #print (learning_progress)
+    #print (str((learning_progress.shape)))
+    #learning_progress = np.array(learning_progress, dtype=float)
+    #print(str(type(learning_progress)))
+    #print (str(np.asarray(learning_progress[:,:])))
+    #print (str(np.asarray(learning_progress).shape))
 
     # learning progress
-    fig, ax = plt.subplots(1, 1, figsize=(7, 7))
+    #fig, ax = plt.subplots(1, 1, figsize=(7, 7))
     # x = np.arange(len(learning_progress))
     # print learning_progress.shape()
     # plt.scatter(x, y1, y2, y3, labels=['GH1 Data', 'GH2 Data', 'GH3 Data'])
-    plt.imshow(learning_progress.T, aspect='auto')
-    plt.colorbar()
-    plt.savefig(directory + 'learning_progress.png')
-    plt.show()
+    #plt.imshow(learning_progress.T, aspect='auto')
+    #plt.colorbar()
+    #plt.savefig(directory + 'learning_progress.png')
+    #plt.show()
 
     fig, ax = plt.subplots( 1, 1, figsize=(10,7) )
     ax.plot(np.arange(len(mse)),mse)
