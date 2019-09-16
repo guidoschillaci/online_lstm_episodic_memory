@@ -59,7 +59,7 @@ class Parameters:
     def save(self):
         # save as numpy array
         #np.save(os.path.join(self.get('directory'), 'parameters'), self.dictionary)
-        pickle.dump(self.dictionary, open(os.path.join(self.get('directory'), 'parameters.pkl'), 'wb'))
+        pickle.dump(self.dictionary, open(os.path.join(self.get('directory'), 'parameters.pkl'), 'wb',  protocol=2) # protcolo2 for compatibility with python2
         # save also as plain text file
         with open(os.path.join(self.get('directory'), 'parameters.txt'), 'w') as f:
             print(self.dictionary, file=f)
