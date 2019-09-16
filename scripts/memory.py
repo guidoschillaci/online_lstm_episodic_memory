@@ -17,7 +17,7 @@ class Memory:
         self.greenhouse_index = []
         self.sample_confidence_interval = []
         self.prediction_errors = [] # for each sample in the memory, store the prediction errors calculated at the last fits at times t and t-1
-        self.learning_progress = np.nan # derivative of the prediction errors (for the moment, just simply pe(t) - pe(t-1)
+        self.learning_progress = [] # derivative of the prediction errors (for the moment, just simply pe(t) - pe(t-1)
 
 
     def update(self, input_window, output_window, gh_index):
