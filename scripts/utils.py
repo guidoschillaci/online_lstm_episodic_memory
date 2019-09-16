@@ -10,7 +10,7 @@ def convert_pickle_from_python3_to_python2():
         directory = main_path + 'exp_0_iter_'+ str(iter) + '/'
         parameters = pickle.load(open(directory + 'parameters.pkl', 'rb'))
 
-        pickle.dump(parameters, open(os.path.join('directory'), 'parameters.pkl'), 'wb', protocol=2)  # protcolo2 for compatibility with python2
+        pickle.dump(parameters, open(os.path.join('directory', 'parameters.pkl'), 'wb'), protocol=2)  # protcolo2 for compatibility with python2
 
 if __name__ == "__main__":
     convert_pickle_from_python3_to_python2()
