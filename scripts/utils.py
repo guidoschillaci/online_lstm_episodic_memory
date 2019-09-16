@@ -1,6 +1,6 @@
 import cPickle as pickle
 
-def convert_pickle_from_python3_to_python2:
+def convert_pickle_from_python3_to_python2():
     iterations = 5
 
     main_path = 'results/'
