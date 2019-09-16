@@ -1,4 +1,4 @@
-import cPickle as pickle
+import pickle
 
 def convert_pickle_from_python3_to_python2():
     iterations = 5
