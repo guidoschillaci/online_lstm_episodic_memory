@@ -106,7 +106,8 @@ class Model:
                 self.logger.store_log(mse=mse_all, gh_index=gh_index, mem_idx_prop= mem_idx_prop, input_var = input_var,
                                       output_var = output_var,
                                       count_of_changed_memory_elements = count_of_changed_memory_elements, learning_progress=learn_progress)
-                print ('mse '+str(mse) + ' idx_prop '+ str(mem_idx_prop))
+                for td in range(len(test_dataset)):  # compute mse for all the test datasets of each greenhouse
+                    print ('mse(gh'+str(td)+'):' +str(mse_all[td]) + ' idx_prop '+ str(mem_idx_prop))
 
         self.logger.switch_dataset() # store the len of the mse vector
         del input_batch
