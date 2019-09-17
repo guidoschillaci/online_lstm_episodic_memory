@@ -92,7 +92,7 @@ if __name__ == "__main__":
                 len_train_ds = len(train_datasets)
                 for d in range(len_train_ds):
                     train = train_datasets[d]
-                    test = test_datasets[d]
+                    test = test_datasets#[d] # all datasets
                     greenhouse_index = train_datasets[d]['greenhouse_index']
     
                     # do online learning

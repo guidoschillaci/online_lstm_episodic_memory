@@ -96,13 +96,14 @@ class Model:
                 output_batch = []
 
             if i % self.parameters.get('mse_calculation_step') == 0:
-
-                mse = self.compute_mse(test_dataset)
+                mse_all =[]
+                for td in range(len(test_dataset)): # compute mse for all the test datasets of each greenhouse
+                    mse_all.append(self.compute_mse(test_dataset[td]))
                 learn_progress = self.memory.get_learning_progress() # returns the current learning progress for each sample storedin the memory
                 mem_idx_prop = self.memory.get_greenhouse_index_proportion()
                 input_var, output_var = self.memory.get_variance()
                 # compute the mse1
-                self.logger.store_log(mse=mse, gh_index=gh_index, mem_idx_prop= mem_idx_prop, input_var = input_var,
+                self.logger.store_log(mse=mse_all, gh_index=gh_index, mem_idx_prop= mem_idx_prop, input_var = input_var,
                                       output_var = output_var,
                                       count_of_changed_memory_elements = count_of_changed_memory_elements, learning_progress=learn_progress)
                 print ('mse '+str(mse) + ' idx_prop '+ str(mem_idx_prop))

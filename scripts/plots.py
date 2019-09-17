@@ -7,7 +7,7 @@ import pickle
 
 if __name__ == "__main__":
 
-    iterations = 5
+    iterations = 1
     experiments = 3
 
 
