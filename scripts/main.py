@@ -54,6 +54,7 @@ if __name__ == "__main__":
     if do_no_memory_experiment:
 
         models = []
+        exp = doe.shape[0] + 1
         print('************************************************')
         print('************************************************')
         print('************************************************')
@@ -62,7 +63,7 @@ if __name__ == "__main__":
         paramet = Parameters()
         paramet.set('days_in_window', doe.loc[exp, 'days_in_window'])
         paramet.set('memory_size', 0)
-        exp = doe.shape[0] +1
+
         # perform 5 repetitions of the same experiment
         for repeat in range(experiment_repetitions):
             model_name = 'exp_' + str(exp) + '_iter_' + str(repeat)
