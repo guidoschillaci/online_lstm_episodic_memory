@@ -81,7 +81,7 @@ class Model:
                 else:
                     full_input = deepcopy(np.asarray(input_batch))
                     full_output = deepcopy(np.asarray(output_batch))
-                
+
                 print('Processed ', i + 1, ' samples of ', len(train_dataset['window_inputs']))
 
                 print('fitting with ', len(full_input), ' samples')
@@ -115,7 +115,7 @@ class Model:
                 for td in range(len(test_dataset)):  # compute mse for all the test datasets of each greenhouse
                     print ('mse(gh'+str(td)+'):' +str(mse_all[td]) + ' idx_prop '+ str(mem_idx_prop))
 
-        self.logger.switch_dataset() # store the len of the mse vector
+        self.logger.switch_dataset(len(train_dataset['window_inputs'])) # store the len of the mse vector
         del input_batch
         del output_batch
 
