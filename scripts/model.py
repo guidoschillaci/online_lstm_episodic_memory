@@ -47,7 +47,7 @@ class Model:
         predictions = self.recurrent.predict(input)
         mse = (np.linalg.norm(predictions - output) ** 2) / len(output)
 
-        print ('Current mse: ', mse)
+        #print ('Current mse: ', mse)
         return mse
 
     def online_fit_on(self, train_dataset, test_dataset, gh_index):

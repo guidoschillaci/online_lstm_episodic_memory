@@ -19,7 +19,7 @@ else:
     session = tf.compat.v1.Session(config=config)
 
 if __name__ == "__main__":
-
+    do_no_memory_experiment = True
     experiment_repetitions = 1
 
     if not os.path.isfile('results/design_of_experiments.csv'):
@@ -50,8 +50,77 @@ if __name__ == "__main__":
     #print (doe.loc[:, :]) # print all the experiments
     #print (doe.loc[0, 'days_in_window']) # how to access a parameter
 
-    print ('Running ' + str(doe.shape[0]) + ' tests, each repeated ' + str(experiment_repetitions) + ' times')
-    models = []
+    # first experiment without memory
+    if do_no_memory_experiment:
+
+        models = []
+        print('************************************************')
+        print('************************************************')
+        print('************************************************')
+        print('************************************************')
+        # create parameters object
+        paramet = Parameters()
+        paramet.set('days_in_window', doe.loc[exp, 'days_in_window'])
+        paramet.set('memory_size', 0)
+        exp = doe.shape[0] +1
+        # perform 5 repetitions of the same experiment
+        for repeat in range(experiment_repetitions):
+            model_name = 'exp_' + str(exp) + '_iter_' + str(repeat)
+
+            paramet.set('directory', model_name)
+            # print (os.path.isdir('../../results/' + paramet.get('directory') ))
+            if not os.path.isdir('results/' + paramet.get('directory')):
+
+                print('************************************************')
+                print('************************************************')
+
+                # load the datasets
+                train_datasets, test_datasets = load_datasets.Loader(model_name=model_name,
+                                                                     param=paramet).get_train_test_datasets()
+
+                print('Results folder: ' + paramet.get('directory'))
+
+                # set random seed
+                ## this should change, when running multiple tests and statistics!
+                # np.random.seed(42)
+                ## reset the seed
+                np.random.seed(int(time.time()))
+
+                # models.append(model.Model(paramet))
+                models = model.Model(paramet)
+                len_train_ds = len(train_datasets)
+                for d in range(len_train_ds):
+                    train = train_datasets[d]
+                    test = test_datasets  # [d] # all datasets
+                    greenhouse_index = train_datasets[d]['greenhouse_index']
+
+                    # do online learning
+                    # models[-1].online_fit_on(train, test, greenhouse_index)
+                    # models[-1].save( paramet.get('directory') )
+                    models.online_fit_on(train, test, greenhouse_index)
+                    models.save(paramet.get('directory'))
+                    print('Finished GH Dataset ' + str(greenhouse_index) + ' of exp ' + str(exp) + ' repetition ' + str(
+                        repeat))
+
+                print(
+                    'finished repetition ' + str(repeat) + ' of exp ' + str(exp) + ' exp name ' + paramet.get('directory'))
+
+                # cleaning up memory....
+                # clear tensorflow session
+                print('Clearing TF session')
+                if tf.__version__ < "1.8.0":
+                    tf.reset_default_graph()
+                else:
+                    tf.compat.v1.reset_default_graph()
+                print('TF session cleared. Freeing memory')
+                del train_datasets
+                del test_datasets
+                del greenhouse_index
+                del models
+                print('Memory freed')
+
+    print('Running ' + str(doe.shape[0]) + ' tests, each repeated ' + str(experiment_repetitions) + ' times')
+
     # run every experiment defined by the parameters set in doe (design of experiment) object
     for exp in range(doe.shape[0]):
         print ('************************************************')
@@ -119,3 +188,4 @@ if __name__ == "__main__":
                 print ('Memory freed')
 
         print ('finished experiment '+ str(exp))
+

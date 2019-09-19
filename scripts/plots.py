@@ -46,7 +46,11 @@ if __name__ == "__main__":
             #plt.show()
 
             fig, ax = plt.subplots( 1, 1, figsize=(10,7) )
-            ax.plot(np.arange(len(mse)),mse)
+            ax.plot(np.arange(len(mse)),mse[:,0], color='r', label='gh1')
+            ax.plot(np.arange(len(mse)),mse[:,1], color='b', label='gh2')
+            ax.plot(np.arange(len(mse)),mse[:,2], color='g', label='gh3a')
+            ax.plot(np.arange(len(mse)),mse[:,3], color='y', label='gh3b')
+            plt.legend(loc='upper left')
             ax.axvline(x=switch_time[0],color='r', linestyle='dashed')
             ax.axvline(x=switch_time[1],color='b', linestyle='dashed')
             plt.ylim(0, 0.5)
