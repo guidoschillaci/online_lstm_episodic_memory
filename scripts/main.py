@@ -61,7 +61,7 @@ if __name__ == "__main__":
         print('************************************************')
         # create parameters object
         paramet = Parameters()
-        paramet.set('days_in_window', doe.loc[exp, 'days_in_window'])
+        paramet.set('days_in_window', 1)
         paramet.set('memory_size', 0)
 
         # perform 5 repetitions of the same experiment
