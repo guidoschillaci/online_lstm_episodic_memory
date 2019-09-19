@@ -73,9 +73,15 @@ class Model:
             if len(input_batch) == self.parameters.get('batch_size'):
                 # fit the model with the current batch of observations and the memory!
                 # create then temporary input and output tensors containig batch and memory
-                full_input = np.vstack((np.asarray(input_batch), np.asarray(self.memory.input_variables)))
-                full_output = np.vstack((np.asarray(output_batch), np.asarray(self.memory.output_variables)))
-
+                full_input = []
+                full_output = []
+                if self.parameters.get('memory_size') > 0 :
+                    full_input = np.vstack((np.asarray(input_batch), np.asarray(self.memory.input_variables)))
+                    full_output = np.vstack((np.asarray(output_batch), np.asarray(self.memory.output_variables)))
+                else:
+                    full_input = deepcopy(np.asarray(input_batch))
+                    full_output = deepcopy(np.asarray(output_batch))
+                
                 print('Processed ', i + 1, ' samples of ', len(train_dataset['window_inputs']))
 
                 print('fitting with ', len(full_input), ' samples')
