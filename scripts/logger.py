@@ -30,8 +30,8 @@ class Logger:
         self.learning_progress.append(deepcopy(learning_progress))
         #print (str(self.learning_progress))
 
-    def switch_dataset(self, time):
-        self.switch_time.append(time)
+    def switch_dataset(self):
+        self.switch_time.append(len(self.mse))
 
     def get_iteration_count(self):
         return len(self.mse)
