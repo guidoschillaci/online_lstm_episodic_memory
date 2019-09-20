@@ -29,10 +29,10 @@ if __name__ == "__main__":
         doe = build.full_fact(
             {
              'days_in_window' : [1], #[1, 7],
-             'memory_size': [500], # fix this to day_size * x?
+             'memory_size': [200], # fix this to day_size * x?
              'memory_update_probability': [0.1], #[0.0001, 0.001],
             # make sure that the following has same orderas memupdatestrategy Enum (in parameters.py). TODO: make this better!
-             'memory_update_strategy': [ MemUpdateStrategy.HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
+             'memory_update_strategy': [ MemUpdateStrategy.RANDOM, MemUpdateStrategy.HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS]
     #            it was [HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS  MemUpdateStrategy.RANDOM ]
 
             }
