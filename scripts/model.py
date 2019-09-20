@@ -1,6 +1,7 @@
 import numpy as np
 import random
 import os
+from copy import deepcopy
 
 from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Dense
