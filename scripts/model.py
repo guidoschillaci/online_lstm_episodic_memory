@@ -13,6 +13,7 @@ from tensorflow.python.keras.callbacks import EarlyStopping
 from tensorflow.python.keras.callbacks import TensorBoard
 from tensorflow.python.keras.utils import plot_model
 
+import datetime
 import logger
 import memory
 from parameters import Parameters, MemUpdateStrategy
@@ -20,6 +21,9 @@ from parameters import Parameters, MemUpdateStrategy
 class Model:
 
     def __init__(self, param):
+
+        self.time_start = datetime.datetime.now()
+
         self.parameters = param
         self.recurrent = Sequential()
         # model.add( LSTM( int(time_series_length/2), input_shape=(time_series_length,features), unroll=True, return_sequences=True, dropout=0.0, recurrent_dropout=0.0 ) )
@@ -116,7 +120,7 @@ class Model:
                 for td in range(len(test_dataset)):  # compute mse for all the test datasets of each greenhouse
                     print ('mse(gh'+str(td)+'):' +str(mse_all[td]) + ' idx_prop '+ str(mem_idx_prop))
 
-        self.logger.switch_dataset(len(train_dataset['window_inputs'])) # store the len of the mse vector
+        self.logger.switch_dataset(len(mse_all[0])) # store the len of the mse vector
         del input_batch
         del output_batch
 
@@ -129,4 +133,10 @@ class Model:
         np.save(os.path.join(directory, 'output_variances'), self.logger.output_variances)
         np.save(os.path.join(directory, 'learning_progress'), self.logger.learning_progress)
         self.parameters.save()
+
+        # saving times
+        self.time_end = datetime.datetime.now()
+        time_delta = self.time_end - self.time_start
+        time_data = [ self.time_start, self.time_end, time_delta]
+        np.save(os.path.join(directory, 'time_data'), time_data)
         print ('data saved')

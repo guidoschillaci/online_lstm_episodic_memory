@@ -5,6 +5,7 @@ import model
 import time
 import os
 
+
 from doepy import build, read_write # pip install doepy - it may require also diversipy
 
 import tensorflow as tf
@@ -29,10 +30,10 @@ if __name__ == "__main__":
         doe = build.full_fact(
             {
              'days_in_window' : [1], #[1, 7],
-             'memory_size': [200], # fix this to day_size * x?
-             'memory_update_probability': [0.1], #[0.0001, 0.001],
+             'memory_size': [500], # fix this to day_size * x?
+             'memory_update_probability': [0.05], #[0.0001, 0.001],
             # make sure that the following has same orderas memupdatestrategy Enum (in parameters.py). TODO: make this better!
-             'memory_update_strategy': [ MemUpdateStrategy.RANDOM, MemUpdateStrategy.HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS]
+             'memory_update_strategy': [  MemUpdateStrategy.HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
     #            it was [HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS  MemUpdateStrategy.RANDOM ]
 
             }
@@ -54,7 +55,7 @@ if __name__ == "__main__":
     if do_no_memory_experiment:
 
         models = []
-        exp = doe.shape[0] + 1
+        exp = 'nomemory'
         print('************************************************')
         print('************************************************')
         print('************************************************')
@@ -66,7 +67,7 @@ if __name__ == "__main__":
 
         # perform 5 repetitions of the same experiment
         for repeat in range(experiment_repetitions):
-            model_name = 'exp_' + str(exp) + '_iter_' + str(repeat)
+            model_name = 'exp_' + (exp) + '_iter_' + str(repeat)
 
             paramet.set('directory', model_name)
             # print (os.path.isdir('../../results/' + paramet.get('directory') ))
@@ -100,11 +101,11 @@ if __name__ == "__main__":
                     # models[-1].save( paramet.get('directory') )
                     models.online_fit_on(train, test, greenhouse_index)
                     models.save(paramet.get('directory'))
-                    print('Finished GH Dataset ' + str(greenhouse_index) + ' of exp ' + str(exp) + ' repetition ' + str(
+                    print('Finished GH Dataset ' + str(greenhouse_index) + ' of exp ' + (exp) + ' repetition ' + str(
                         repeat))
 
                 print(
-                    'finished repetition ' + str(repeat) + ' of exp ' + str(exp) + ' exp name ' + paramet.get('directory'))
+                    'finished repetition ' + str(repeat) + ' of exp ' + (exp) + ' exp name ' + paramet.get('directory'))
 
                 # cleaning up memory....
                 # clear tensorflow session

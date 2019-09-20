@@ -30,10 +30,10 @@ class Parameters:
             'memory_size': 1000,
             'memory_update_probability': 0.0001,
             'memory_update_strategy': MemUpdateStrategy.RANDOM,  # possible choices:  random, learning_progress
-            'batch_size': 32,
+            'batch_size': 64,
             'batchs_to_update_online': 3,
             'mse_test_dataset_fraction' : 20,  #   how many samples to use in the MSE calculations? dataset_size / this.
-            'mse_calculation_step': 10, # calculate MSE every X model fits
+            'mse_calculation_step': 5, # calculate MSE every X model fits
             'verbosity_level': 0
         }
 
