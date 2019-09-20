@@ -102,7 +102,7 @@ class Model:
                 input_batch = []
                 output_batch = []
 
-            if i % self.parameters.get('mse_calculation_step') == 0:
+            if i % (self.parameters.get('mse_calculation_step') * self.parameters.get('batch_size')) == 0:
                 mse_all =[]
                 for td in range(len(test_dataset)): # compute mse for all the test datasets of each greenhouse
                     mse_all.append(self.compute_mse(test_dataset[td]))
