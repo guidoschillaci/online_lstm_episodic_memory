@@ -49,27 +49,27 @@ class Memory:
                     # select the element with the highest or lowest learning progress (which of the two is the best?
                     # and substitute it with the new sample - with probability p
                     #for i in range(len(self.input_variables)):
-                    #ran = random.random()
-                    #if ran < self.parameters.get('memory_update_probability'):
-                    index = self.learning_progress.index( np.nanmin (self.learning_progress)) # gives high plasticity?
-                    self.input_variables[index] = input_window
-                    self.output_variables[index] = output_window
-                    self.greenhouse_index[index] = gh_index
-                    self.prediction_errors[index] = []
-                    self.learning_progress[index] = np.nan
+                    ran = random.random()
+                    if ran < self.parameters.get('memory_update_probability'):
+                        index = self.learning_progress.index( np.nanmin (self.learning_progress)) # gives high plasticity?
+                        self.input_variables[index] = input_window
+                        self.output_variables[index] = output_window
+                        self.greenhouse_index[index] = gh_index
+                        self.prediction_errors[index] = []
+                        self.learning_progress[index] = np.nan
                             #counter_of_changed_elements = counter_of_changed_elements +1
                 elif self.parameters.get('memory_update_strategy') == MemUpdateStrategy.HIGH_LEARNING_PROGRESS.value:
                     # select the element with the highest or lowest learning progress (which of the two is the best?
                     # and substitute it with the new sample - with probability p
                     #for i in range(len(self.input_variables)):
-                    #ran = random.random()
-                    #if ran < self.parameters.get('memory_update_probability'):
-                    index = self.learning_progress.index( np.nanmax (self.learning_progress)) # gives low plasticity?
-                    self.input_variables[index] = input_window
-                    self.output_variables[index] = output_window
-                    self.greenhouse_index[index] = gh_index
-                    self.prediction_errors[index] = []
-                    self.learning_progress[index] = np.nan
+                    ran = random.random()
+                    if ran < self.parameters.get('memory_update_probability'):
+                        index = self.learning_progress.index( np.nanmax (self.learning_progress)) # gives low plasticity?
+                        self.input_variables[index] = input_window
+                        self.output_variables[index] = output_window
+                        self.greenhouse_index[index] = gh_index
+                        self.prediction_errors[index] = []
+                        self.learning_progress[index] = np.nan
                             #counter_of_changed_elements = counter_of_changed_elements +1
                 else:
                     print ('Wrong parameter memory_update_strategy')

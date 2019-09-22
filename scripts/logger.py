@@ -31,7 +31,7 @@ class Logger:
         #print (str(self.learning_progress))
 
     def switch_dataset(self):
-        self.switch_time.append(len(self.mse))
+        self.switch_time.append(len(self.mse_memory_label))
 
     def get_iteration_count(self):
         return len(self.mse)
