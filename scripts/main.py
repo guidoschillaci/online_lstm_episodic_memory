@@ -21,7 +21,7 @@ else:
 
 if __name__ == "__main__":
     do_no_memory_experiment = True
-    experiment_repetitions = 1
+    experiment_repetitions = 5
 
     if not os.path.isfile('results/design_of_experiments.csv'):
 

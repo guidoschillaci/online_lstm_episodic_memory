@@ -62,7 +62,7 @@ def do_plots(directory, no_memory=False):
     ax.axvline(x=switch_time[0], color='r', linestyle='dashed')
     ax.axvline(x=switch_time[1], color='b', linestyle='dashed')
     plt.ylim(0, 0.5)
-    plt.xlim(0, 200)
+  #  plt.xlim(0, 200)
     plt.title(
         'Mean Squared Error - ' + ('No Memory ' if no_memory else ('MemStrategy: ' + str(int(parameters['memory_update_strategy'])) ) ) + ' iteration ' + str(
             iter))
@@ -76,7 +76,7 @@ def do_plots(directory, no_memory=False):
     plt.title(
         'Input variances - ' + ('No Memory ' if no_memory else ('MemStrategy: ' + str(int(parameters['memory_update_strategy'])) ) ) + ' iteration ' + str(
             iter))
-    plt.xlim(0, 200)
+  #  plt.xlim(0, 200)
     plt.savefig(directory + 'input_variances.png')
     plt.show()
 
@@ -84,7 +84,7 @@ def do_plots(directory, no_memory=False):
     ax.plot(np.arange(len(output_var)), output_var)
     ax.axvline(x=switch_time[0], color='r', linestyle='dashed')
     ax.axvline(x=switch_time[1], color='b', linestyle='dashed')
-    plt.xlim(0, 200)
+  #  plt.xlim(0, 200)
     plt.title(
         'Output variances - ' + ('No Memory ' if no_memory else ('MemStrategy: ' + str(int(parameters['memory_update_strategy'])) ) ) + ' iteration ' + str(
             iter))
@@ -95,7 +95,7 @@ def do_plots(directory, no_memory=False):
     ax.plot(np.arange(len(mem_label)), mem_label)
     ax.axvline(x=switch_time[0], color='r', linestyle='dashed')
     ax.axvline(x=switch_time[1], color='b', linestyle='dashed')
-    plt.xlim(0, 200)
+   # plt.xlim(0, 200)
     plt.title('Which greenhouse data is used - ' + ('No Memory ' if no_memory else ('MemStrategy: ' + str(int(parameters['memory_update_strategy'])) ) ) + ' iteration ' + str(
             iter))
     plt.savefig(directory + 'memory_label.png')
@@ -112,7 +112,7 @@ def do_plots(directory, no_memory=False):
     ax.xaxis.grid()  # vertical lines
     ax.axvline(x=switch_time[0], color='r', linestyle='dashed')
     ax.axvline(x=switch_time[1], color='b', linestyle='dashed')
-    plt.xlim(0, 200)
+   # plt.xlim(0, 200)
     plt.legend(loc='upper left')
     plt.title(
         'Memory Index - ' + ('No Memory ' if no_memory else ('MemStrategy: ' + str(int(parameters['memory_update_strategy'])) ) ) + ' iteration ' + str(
