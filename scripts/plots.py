@@ -116,6 +116,7 @@ def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_in
         plt.legend(loc='upper left')
         ax.axvline(x=switch_time[0], color='r', linestyle='dashed')
         ax.axvline(x=switch_time[1], color='b', linestyle='dashed')
+        ax.axvline(x=switch_time[2], color='b', linestyle='dashed')
         plt.ylim(0, 0.5)
       #  plt.xlim(0, 200)
         plt.title(
@@ -130,6 +131,7 @@ def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_in
         ax.plot(np.arange(len(input_var)), input_var)
         ax.axvline(x=switch_time[0], color='r', linestyle='dashed')
         ax.axvline(x=switch_time[1], color='b', linestyle='dashed')
+        ax.axvline(x=switch_time[2], color='b', linestyle='dashed')
         plt.title(
             'Input variances - ' + ('No Memory ' if no_memory else ('MemStrategy: ' + get_strategy_name(int(parameters['memory_update_strategy'])) ) ) + ' iteration ' + str(
                 iter))
@@ -143,6 +145,7 @@ def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_in
         ax.plot(np.arange(len(output_var)), output_var)
         ax.axvline(x=switch_time[0], color='r', linestyle='dashed')
         ax.axvline(x=switch_time[1], color='b', linestyle='dashed')
+        ax.axvline(x=switch_time[2], color='b', linestyle='dashed')
       #  plt.xlim(0, 200)
         plt.title(
             'Output variances - ' + ('No Memory ' if no_memory else ('MemStrategy: ' + get_strategy_name(int(parameters['memory_update_strategy'])) ) ) + ' iteration ' + str(
@@ -156,6 +159,7 @@ def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_in
         ax.plot(np.arange(len(mem_label)), mem_label)
         ax.axvline(x=switch_time[0], color='r', linestyle='dashed')
         ax.axvline(x=switch_time[1], color='b', linestyle='dashed')
+        ax.axvline(x=switch_time[2], color='b', linestyle='dashed')
        # plt.xlim(0, 200)
         plt.title('Which greenhouse data is used - ' + ('No Memory ' if no_memory else ('MemStrategy: ' + get_strategy_name(int(parameters['memory_update_strategy'])) ) ) + ' iteration ' + str(
                 iter))
@@ -175,6 +179,7 @@ def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_in
         ax.xaxis.grid()  # vertical lines
         ax.axvline(x=switch_time[0], color='r', linestyle='dashed')
         ax.axvline(x=switch_time[1], color='b', linestyle='dashed')
+        ax.axvline(x=switch_time[2], color='b', linestyle='dashed')
        # plt.xlim(0, 200)
         plt.legend(loc='upper left')
         plt.title(
@@ -201,9 +206,9 @@ def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_in
 
     fig, ax = plt.subplots(1, 1, figsize=(10, 7))
     ax.plot(np.arange(length), mse_mean[0], color='r', label='gh1')
-    ax.plot(np.arange(length), mse_mean[1], color='b', label='gh2')
-    ax.plot(np.arange(length), mse_mean[2], color='g', label='gh3a')
-    ax.plot(np.arange(length), mse_mean[3], color='y', label='gh3b')
+    ax.plot(np.arange(length), mse_mean[1], color='b', label='gh2(2015)')
+    ax.plot(np.arange(length), mse_mean[2], color='g', label='gh2(>2016)')
+    ax.plot(np.arange(length), mse_mean[3], color='y', label='gh3')
 
     plt.fill_between(np.arange(length), mse_mean[0] - mse_std_dev[0], mse_mean[0] + mse_std_dev[0], color='r', alpha=0.3)
     plt.fill_between(np.arange(length), mse_mean[1] - mse_std_dev[1], mse_mean[1] + mse_std_dev[1], color='b', alpha=0.3)
@@ -213,6 +218,7 @@ def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_in
     plt.legend(loc='upper left')
     ax.axvline(x=switch_time[0], color='r', linestyle='dashed')
     ax.axvline(x=switch_time[1], color='b', linestyle='dashed')
+    ax.axvline(x=switch_time[2], color='b', linestyle='dashed')
     plt.ylim(0, 0.5)
     #  plt.xlim(0, 200)
     plt.title(
@@ -250,6 +256,7 @@ def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_in
 
 if __name__ == "__main__":
 
+    '''
     param = parameters.Parameters()
     param.set('days_in_window', 1)
 
@@ -261,6 +268,7 @@ if __name__ == "__main__":
     tsne(np.asarray(data))
 
     print ('tsne done')
+    '''
 
     main_path = 'results/'
     is_nomemory_exp_available = True
