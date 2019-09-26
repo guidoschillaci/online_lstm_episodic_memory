@@ -250,8 +250,11 @@ def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_in
 
 if __name__ == "__main__":
 
+    param = parameters.Parameters()
+    param.set('days_in_window', 1)
+
     train_datasets, test_datasets = load_datasets.Loader(model_name='results',
-                                                         param=parameters.Parameters()).get_train_test_datasets()
+                                                         param=param).get_train_test_datasets()
 
     data = train_datasets[0]['window_inputs']
     print ('data shape ', np.asarray(data.shape))

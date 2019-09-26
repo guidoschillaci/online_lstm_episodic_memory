@@ -4,7 +4,7 @@ import os
 import numpy as np
 import pandas as pd
 import time
-
+from copy import deepcopy
 import parameters
 
 from sklearn.preprocessing import MinMaxScaler
@@ -20,8 +20,8 @@ class Loader:
             os.makedirs( self.directory )
 
         param.set('directory', self.directory)
-        self.parameters = param
-
+        self.parameters = deepcopy(param)
+        print ('days_in_window ', self.parameters.get('days_in_window'))
         print ('Verbosity level '+ str(self.parameters.get('verbosity_level')))
 
         print('Loading original datasets...')
