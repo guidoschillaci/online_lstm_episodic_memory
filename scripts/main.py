@@ -10,13 +10,15 @@ from doepy import build, read_write # pip install doepy - it may require also di
 
 import tensorflow as tf
 
+GPU_FRACTION = 0.3
+
 if tf.__version__ < "1.8.0":
     config = tf.ConfigProto()
-    config.gpu_options.per_process_gpu_memory_fraction = 0.75
+    config.gpu_options.per_process_gpu_memory_fraction = GPU_FRACTION
     session = tf.Session(config=config)
 else:
     config = tf.compat.v1.ConfigProto()
-    config.gpu_options.per_process_gpu_memory_fraction = 0.75
+    config.gpu_options.per_process_gpu_memory_fraction = GPU_FRACTION
     session = tf.compat.v1.Session(config=config)
 
 if __name__ == "__main__":
