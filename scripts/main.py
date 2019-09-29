@@ -31,7 +31,7 @@ if __name__ == "__main__":
         # https://doepy.readthedocs.io/en/latest/
         doe = build.full_fact(
             {
-             'days_in_window' : [1], #[1, 7],
+             'days_in_window' : [5], #[1, 7],
              'memory_size': [500], # fix this to day_size * x?
              'memory_update_probability': [0.05], #[0.0001, 0.001],
             # make sure that the following has same orderas memupdatestrategy Enum (in parameters.py). TODO: make this better!
