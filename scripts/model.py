@@ -12,7 +12,7 @@ from tensorflow.python.keras.activations import hard_sigmoid
 from tensorflow.python.keras.callbacks import EarlyStopping
 from tensorflow.python.keras.callbacks import TensorBoard
 from tensorflow.python.keras.utils import plot_model
-from tensorflow.python.keras.utils.vis_utils import plot_model
+#from tensorflow.python.keras.utils.vis_utils import plot_model
 
 
 import datetime
@@ -40,8 +40,8 @@ class Model:
         self.recurrent.compile(loss=self.parameters.get('loss'), optimizer=self.parameters.get('optimizer'))
         self.recurrent.summary()
 
-        plot_model(self.recurrent, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
-        print('Model plot saved')
+        #plot_model(self.recurrent, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
+        #print('Model plot saved')
 
         self.memory_size = self.parameters.get('memory_size')  # how many windows to keep in memory?
         self.prob_update = self.parameters.get('memory_update_probability') # probability of substituting an element of the memory with the current observations
