@@ -11,6 +11,9 @@ import seaborn as sns
 import load_datasets
 import parameters
 
+outvar_mean_all=[]
+outvar_std_all=[]
+
 def get_strategy_name(strategy_id):
     if strategy_id == 0:
         return 'Discard High LP'
@@ -42,16 +45,17 @@ def tsne(data):
     )
     plt.savefig('t-sne.png')
 
+
 def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_intermediate=False):
 
-    length = 0
     mse_all = []
     input_var_all = []
     output_var_all = []
+    switch_time = []
     for gh in range(greenhouses):
         mse_all.append([])
-        input_var_all.append([])
-        output_var_all.append([])
+        #input_var_all.append([])
+        #output_var_all.append([])
 
     for iterat in range(iterations):
         subdirectory = directory + 'iter_'+str(iterat)+'/'
@@ -65,8 +69,9 @@ def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_in
 
         if os.path.isfile(subdirectory + 'output_variances.npy'):
             output_var = np.load(subdirectory + 'output_variances.npy')
-           # for gh in range(greenhouses):
-           #     output_var_all[gh].append(output_var[:])
+           # print ('shape read ', np.asarray(output_var).shape)
+            #for gh in range(greenhouses):
+            output_var_all.append(output_var[:])
         else:
             print('File ' + subdirectory + 'output_variances.npy' + 'does not exists!')
 
@@ -161,8 +166,7 @@ def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_in
         ax.axvline(x=switch_time[1], color='b', linestyle='dashed')
         ax.axvline(x=switch_time[2], color='b', linestyle='dashed')
        # plt.xlim(0, 200)
-        plt.title('Which greenhouse data is used - ' + ('No Memory ' if no_memory else ('MemStrategy: ' + get_strategy_name(int(parameters['memory_update_strategy'])) ) ) + ' iteration ' + str(
-                iter))
+        plt.title('Which greenhouse data is used - ' + ('No Memory ' if no_memory else ('MemStrategy: ' + get_strategy_name(int(parameters['memory_update_strategy'])) ) ))
         plt.savefig(subdirectory + 'memory_label.png')
         if show_intermediate:
             plt.show()
@@ -183,8 +187,7 @@ def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_in
        # plt.xlim(0, 200)
         plt.legend(loc='upper left')
         plt.title(
-            'Memory Index - ' + ('No Memory ' if no_memory else ('MemStrategy: ' + get_strategy_name(int(parameters['memory_update_strategy'])) ) ) + ' iteration ' + str(
-                iter))
+            'Memory Index - ' + ('No Memory ' if no_memory else ('MemStrategy: ' + get_strategy_name(int(parameters['memory_update_strategy'])) ) ) )
         plt.savefig(subdirectory + 'memory_index_proportion.png')
         if show_intermediate:
             plt.show()
@@ -202,7 +205,6 @@ def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_in
     #print (mse_mean)
     #print ('len(mse_all) ', length)
     #print ('mse_mean[0] ' , mse_mean[0])
-
 
     fig, ax = plt.subplots(1, 1, figsize=(10, 7))
     ax.plot(np.arange(length), mse_mean[0], color='r', label='gh1')
@@ -226,6 +228,13 @@ def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_in
                     'MemStrategy: ' + get_strategy_name(int(parameters['memory_update_strategy'])))) )
     plt.savefig(directory + 'learning_progress.png')
     plt.show()
+
+
+    if not no_memory:
+        #print ('shape ' , np.asarray(output_var_all).shape)
+        outvar_mean_all.append(np.mean(output_var_all, axis=0))
+        outvar_std_all.append(np.std(output_var_all, axis=0))
+
 
     '''
     fig, ax = plt.subplots(1, 1, figsize=(10, 7))
@@ -253,6 +262,27 @@ def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_in
     plt.show()
     '''
     plt.close()
+    return switch_time
+
+def plot_var(directory, switch, experiments=3 ):
+
+    colors = ['r', 'b', 'g']
+    fig, ax = plt.subplots(1, 1, figsize=(10, 7))
+    for i in range(experiments):
+        ax.plot(np.arange(len(outvar_mean_all[i])), outvar_mean_all[i], color=colors[i], label= get_strategy_name(i))
+        plt.fill_between(np.arange(len(outvar_mean_all[i])), outvar_mean_all[i] - outvar_std_all[i], outvar_mean_all[i] + outvar_std_all[i], color=colors[i],
+                         alpha=0.3)
+
+        plt.legend(loc='upper left')
+        ax.axvline(x=switch[0], color='r', linestyle='dashed')
+        ax.axvline(x=switch[1], color='b', linestyle='dashed')
+        ax.axvline(x=switch[2], color='b', linestyle='dashed')
+        plt.ylim(0, 0.08)
+    #  plt.xlim(0, 200)
+    plt.title('Variance of the output features of the memory samples')
+    plt.savefig(directory + 'output_variance.png')
+    plt.show()
+
 
 if __name__ == "__main__":
 
@@ -270,6 +300,7 @@ if __name__ == "__main__":
     print ('tsne done')
     '''
 
+    #main_path = 'results_good_5days/'
     main_path = 'results/'
     is_nomemory_exp_available = True
     iterations = 5
@@ -281,8 +312,11 @@ if __name__ == "__main__":
 
     # plot all the rest of the experiments
     experiments = 3
+    switch_t = []
     for exp in range(experiments):
         directory = main_path + 'exp_'+str(exp)+'_'  # iter_' + str(iter) + '/'
-        do_plots(directory, iterations=iterations, no_memory=False)
+        switch_t = do_plots(directory, iterations=iterations, no_memory=False)
+    print (np.asarray(switch_t).shape)
+    plot_var(main_path, switch = switch_t, experiments=2)
 
     print ('All the plots are saved')
