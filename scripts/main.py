@@ -24,7 +24,7 @@ else:
 if __name__ == "__main__":
     do_no_memory_experiment = True
     experiment_repetitions = 5
-    days_in_win = 1
+    days_in_win = 5
     if not os.path.isfile('results/design_of_experiments.csv'):
 
         # consider other methods than full factiorial, if having too many parameters
