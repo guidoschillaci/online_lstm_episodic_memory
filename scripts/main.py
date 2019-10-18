@@ -10,7 +10,7 @@ from doepy import build, read_write # pip install doepy - it may require also di
 
 import tensorflow as tf
 
-GPU_FRACTION = 0.3
+GPU_FRACTION = 0.2
 
 if tf.__version__ < "1.8.0":
     config = tf.ConfigProto()
