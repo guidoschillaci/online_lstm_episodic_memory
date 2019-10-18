@@ -76,7 +76,7 @@ class Model:
         self.model = []
         if param.get('model_type') == 'recurrent':
             self.model = self.make_recurrent_nn()
-        else
+        else:
             self.model = self.make_mlp_nn()
 
         self.memory_size = self.parameters.get('memory_size')  # how many windows to keep in memory?
