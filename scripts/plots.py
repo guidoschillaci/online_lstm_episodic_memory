@@ -77,10 +77,10 @@ def plot_pca(data1, data2, data3, data4, out1, out2, out3, out4):
     area =4
     # Plot
     fig, ax = plt.subplots(1, 1, figsize=(10, 10))
-    plt.scatter(X1[:,0], X1[:,1] s=area, c='g', alpha = 0.2, label='gh1')
-    plt.scatter(X2[:,0], X2[:,1] s=area, c='red', alpha = 0.2, label='gh2(2015)')
-    plt.scatter(X3[:,0], X3[:,1] s=area, c='purple', alpha = 0.2, label='gh2(>2016)')
-    plt.scatter(X4[:,0], X4[:,1] s=area, c='b', alpha = 0.2, label='gh3')
+    plt.scatter(X1[:,0], X1[:,1], s=area, c='g', alpha = 0.2, label='gh1')
+    plt.scatter(X2[:,0], X2[:,1], s=area, c='red', alpha = 0.2, label='gh2(2015)')
+    plt.scatter(X3[:,0], X3[:,1], s=area, c='purple', alpha = 0.2, label='gh2(>2016)')
+    plt.scatter(X4[:,0], X4[:,1], s=area, c='b', alpha = 0.2, label='gh3')
     plt.legend(loc='upper right')
     plt.title('PCA')
     plt.xlabel('PCA1')
@@ -159,10 +159,10 @@ def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_in
         # plt.show()
         length = len(mse)
         fig, ax = plt.subplots(1, 1, figsize=(10, 7))
-        ax.plot(np.arange(len(mse)), mse[:, 0], color='green', label='gh1')
-        ax.plot(np.arange(len(mse)), mse[:, 1], color='red', label='gh2')
-        ax.plot(np.arange(len(mse)), mse[:, 2], color='purple', label='gh3a')
-        ax.plot(np.arange(len(mse)), mse[:, 3], color='blue', label='gh3b')
+        ax.plot(np.arange(len(mse)), mse[:, 0], marker='.', color='green', label='gh1')
+        ax.plot(np.arange(len(mse)), mse[:, 1], marker='.', color='red', label='gh2')
+        ax.plot(np.arange(len(mse)), mse[:, 2], marker='.', color='purple', label='gh3a')
+        ax.plot(np.arange(len(mse)), mse[:, 3], marker='.', color='blue', label='gh3b')
         plt.legend(loc='upper left')
         ax.axvline(x=switch_time[0], color='r', linestyle='dashed')
         ax.axvline(x=switch_time[1], color='purple', linestyle='dashed')
@@ -332,8 +332,8 @@ def plot_var(directory, switch, experiments=3 ):
 
 if __name__ == "__main__":
 
-    do_mse_plots = False
-    do_pca = True
+    do_mse_plots = True
+    do_pca = False
 
     if do_pca:
         param = parameters.Parameters()
@@ -369,6 +369,7 @@ if __name__ == "__main__":
 
     if do_mse_plots:
         #main_path = 'results_good_5days/'
+        #main_path = 'results/'
         main_path = 'results_good_1_day/'
         is_nomemory_exp_available = True
         iterations = 5

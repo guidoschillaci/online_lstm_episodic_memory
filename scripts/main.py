@@ -24,7 +24,7 @@ else:
 if __name__ == "__main__":
 
     do_no_memory_experiment = True
-    experiment_repetitions = 1 # was 5
+    experiment_repetitions = 5
     days_in_win = 1
     if not os.path.isfile('results/design_of_experiments.csv'):
 
@@ -37,7 +37,7 @@ if __name__ == "__main__":
              'memory_update_probability': [0.05], #[0.0001, 0.001],
             # make sure that the following has same orderas memupdatestrategy Enum (in parameters.py). TODO: make this better!
              'memory_update_strategy': [ MemUpdateStrategy.RANDOM]
-    #        'memory_update_strategy': [  MemUpdateStrategy.HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
+            #'memory_update_strategy': [  MemUpdateStrategy.HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
                 #     #            it was [HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS  MemUpdateStrategy.RANDOM ]
 
             }
@@ -98,7 +98,7 @@ if __name__ == "__main__":
                 # models.append(model.Model(paramet))
                 models = model.Model(paramet)
                 len_train_ds = len(train_datasets)
-                test = test_datasets  # [d] # all datasets
+                #test = test_datasets  # [d] # all datasets
                 #for d in range(len_train_ds):
                 for d in range(1):
                     train = train_datasets[d]
@@ -107,7 +107,7 @@ if __name__ == "__main__":
                     # do online learning
                     # models[-1].online_fit_on(train, test, greenhouse_index)
                     # models[-1].save( paramet.get('directory') )
-                    models.online_fit_on(train, test, greenhouse_index)
+                    models.online_fit_on(train, test_datasets, greenhouse_index)
                     models.save(paramet.get('directory'))
                     print('Finished GH Dataset ' + str(greenhouse_index) + ' of exp ' + (exp) + ' repetition ' + str(
                         repeat))

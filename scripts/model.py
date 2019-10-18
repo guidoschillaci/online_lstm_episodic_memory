@@ -4,7 +4,7 @@ import os
 from copy import deepcopy
 
 from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras.layers import Dense
+from tensorflow.python.keras.layers import Dense, Input, Flatten
 from tensorflow.python.keras.layers import LSTM
 from tensorflow.python.keras.layers import BatchNormalization
 from tensorflow.python.keras.activations import sigmoid
@@ -24,7 +24,7 @@ class Model:
 
 
     def make_recurrent_nn(self, plot =False):
-
+        print ('Model is a recurrent LSTM network')
         model = Sequential()
         # model.add( LSTM( int(time_series_length/2), input_shape=(time_series_length,features), unroll=True, return_sequences=True, dropout=0.0, recurrent_dropout=0.0 ) )
         model.add(LSTM(units=8, input_shape=(self.parameters.get_window_size(), len(self.parameters.get('inp_sensors'))), unroll=True,dropout=0.0, recurrent_dropout=0.0))
@@ -45,28 +45,28 @@ class Model:
         return model
 
     def make_mlp_nn(self, plot=False):
-        print ('TODO make_mlp_NN')
-        # TODO
-        #model = Sequential()
-        # model.add( LSTM( int(time_series_length/2), input_shape=(time_series_length,features), unroll=True, return_sequences=True, dropout=0.0, recurrent_dropout=0.0 ) )
+        print ('Model is a Multi-Layer Perceptron')
+        model = Sequential()
+        model.add( Input( shape=(self.parameters.get_window_size(), len(self.parameters.get('inp_sensors') ) ) ) )
         #model.add(
         #    LSTM(units=8, input_shape=(self.parameters.get_window_size(), len(self.parameters.get('inp_sensors'))),
         #         unroll=True, dropout=0.0, recurrent_dropout=0.0))
-        #model.add(BatchNormalization())
-        #model.add(Dense(16, activation=hard_sigmoid))
-        #model.add(BatchNormalization())
-        #model.add(Dense(8, activation=sigmoid))
-        #model.add(BatchNormalization())
-        #model.add(Dense(len(self.parameters.get('out_sensors'))))
+        model.add(Flatten())
+        model.add(BatchNormalization())
+        model.add(Dense(16, activation=hard_sigmoid))
+        model.add(BatchNormalization())
+        model.add(Dense(8, activation=sigmoid))
+        model.add(BatchNormalization())
+        model.add(Dense(len(self.parameters.get('out_sensors'))))
 
-        #model.compile(loss=self.parameters.get('loss'), optimizer=self.parameters.get('optimizer'))
-        #model.summary()
+        model.compile(loss=self.parameters.get('loss'), optimizer=self.parameters.get('optimizer'))
+        model.summary()
 
-        #if plot:
-        #    plot_model(model, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
-        #    print('Model plot saved')
+        if plot:
+            plot_model(model, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
+            print('Model plot saved')
 
-        #return model
+        return model
 
     def __init__(self, param):
 
