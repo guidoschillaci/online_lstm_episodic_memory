@@ -45,7 +45,7 @@ class Model:
         return model
 
     def make_mlp_nn(self, plot=False):
-
+        print ('TODO make_mlp_NN')
         # TODO
         #model = Sequential()
         # model.add( LSTM( int(time_series_length/2), input_shape=(time_series_length,features), unroll=True, return_sequences=True, dropout=0.0, recurrent_dropout=0.0 ) )
