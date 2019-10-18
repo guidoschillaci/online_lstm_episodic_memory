@@ -22,9 +22,10 @@ else:
     session = tf.compat.v1.Session(config=config)
 
 if __name__ == "__main__":
+
     do_no_memory_experiment = True
-    experiment_repetitions = 5
-    days_in_win = 2
+    experiment_repetitions = 1 # was 5
+    days_in_win = 1
     if not os.path.isfile('results/design_of_experiments.csv'):
 
         # consider other methods than full factiorial, if having too many parameters
@@ -35,8 +36,9 @@ if __name__ == "__main__":
              'memory_size': [500], # fix this to day_size * x?
              'memory_update_probability': [0.05], #[0.0001, 0.001],
             # make sure that the following has same orderas memupdatestrategy Enum (in parameters.py). TODO: make this better!
-             'memory_update_strategy': [  MemUpdateStrategy.HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
-    #            it was [HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS  MemUpdateStrategy.RANDOM ]
+             'memory_update_strategy': [ MemUpdateStrategy.RANDOM]
+    #        'memory_update_strategy': [  MemUpdateStrategy.HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
+                #     #            it was [HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS  MemUpdateStrategy.RANDOM ]
 
             }
         )
@@ -97,7 +99,8 @@ if __name__ == "__main__":
                 models = model.Model(paramet)
                 len_train_ds = len(train_datasets)
                 test = test_datasets  # [d] # all datasets
-                for d in range(len_train_ds):
+                #for d in range(len_train_ds):
+                for d in range(1):
                     train = train_datasets[d]
                     greenhouse_index = train_datasets[d]['greenhouse_index']
 
@@ -144,7 +147,7 @@ if __name__ == "__main__":
         # perform 5 repetitions of the same experiment
         for repeat in range(experiment_repetitions):
             model_name = 'exp_' + str(exp) + '_iter_' + str(repeat)
-
+            paramet.set('experiment_repetition', repeat)
             paramet.set('directory', model_name)
             #print (os.path.isdir('../../results/' + paramet.get('directory') ))
             if not os.path.isdir('results/' + paramet.get('directory') ):

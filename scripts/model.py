@@ -22,26 +22,62 @@ from parameters import Parameters, MemUpdateStrategy
 
 class Model:
 
+
+    def make_recurrent_nn(self, plot =False):
+
+        model = Sequential()
+        # model.add( LSTM( int(time_series_length/2), input_shape=(time_series_length,features), unroll=True, return_sequences=True, dropout=0.0, recurrent_dropout=0.0 ) )
+        model.add(LSTM(units=8, input_shape=(self.parameters.get_window_size(), len(self.parameters.get('inp_sensors'))), unroll=True,dropout=0.0, recurrent_dropout=0.0))
+        model.add(BatchNormalization())
+        model.add(Dense(16, activation=hard_sigmoid))
+        model.add(BatchNormalization())
+        model.add(Dense(8, activation=sigmoid))
+        model.add(BatchNormalization())
+        model.add(Dense(len(self.parameters.get('out_sensors'))))
+
+        model.compile(loss=self.parameters.get('loss'), optimizer=self.parameters.get('optimizer'))
+        model.summary()
+
+        if plot:
+            plot_model(model, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
+            print('Model plot saved')
+
+        return model
+
+    def make_mlp_nn(self, plot=False):
+
+        # TODO
+        #model = Sequential()
+        # model.add( LSTM( int(time_series_length/2), input_shape=(time_series_length,features), unroll=True, return_sequences=True, dropout=0.0, recurrent_dropout=0.0 ) )
+        #model.add(
+        #    LSTM(units=8, input_shape=(self.parameters.get_window_size(), len(self.parameters.get('inp_sensors'))),
+        #         unroll=True, dropout=0.0, recurrent_dropout=0.0))
+        #model.add(BatchNormalization())
+        #model.add(Dense(16, activation=hard_sigmoid))
+        #model.add(BatchNormalization())
+        #model.add(Dense(8, activation=sigmoid))
+        #model.add(BatchNormalization())
+        #model.add(Dense(len(self.parameters.get('out_sensors'))))
+
+        #model.compile(loss=self.parameters.get('loss'), optimizer=self.parameters.get('optimizer'))
+        #model.summary()
+
+        #if plot:
+        #    plot_model(model, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
+        #    print('Model plot saved')
+
+        #return model
+
     def __init__(self, param):
 
         self.time_start = datetime.datetime.now()
 
         self.parameters = param
-        self.recurrent = Sequential()
-        # model.add( LSTM( int(time_series_length/2), input_shape=(time_series_length,features), unroll=True, return_sequences=True, dropout=0.0, recurrent_dropout=0.0 ) )
-        self.recurrent.add(LSTM(units=8, input_shape=(self.parameters.get_window_size(), len(self.parameters.get('inp_sensors'))), unroll=True,dropout=0.0, recurrent_dropout=0.0))
-        self.recurrent.add(BatchNormalization())
-        self.recurrent.add(Dense(16, activation=hard_sigmoid))
-        self.recurrent.add(BatchNormalization())
-        self.recurrent.add(Dense(8, activation=sigmoid))
-        self.recurrent.add(BatchNormalization())
-        self.recurrent.add(Dense(len(self.parameters.get('out_sensors'))))
-
-        self.recurrent.compile(loss=self.parameters.get('loss'), optimizer=self.parameters.get('optimizer'))
-        self.recurrent.summary()
-
-        #plot_model(self.recurrent, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
-        #print('Model plot saved')
+        self.model = []
+        if param.get('model_type') == 'recurrent':
+            self.model = self.make_recurrent_nn()
+        else
+            self.model = self.make_mlp_nn()
 
         self.memory_size = self.parameters.get('memory_size')  # how many windows to keep in memory?
         self.prob_update = self.parameters.get('memory_update_probability') # probability of substituting an element of the memory with the current observations
@@ -54,7 +90,7 @@ class Model:
         input = test_dataset['window_inputs']
         output = test_dataset['window_outputs']
 
-        predictions = self.recurrent.predict(input)
+        predictions = self.model.predict(input)
         mse = (np.linalg.norm(predictions - output) ** 2) / len(output)
 
         #print ('Current mse: ', mse)
@@ -95,14 +131,14 @@ class Model:
                 print('Processed ', i + 1, ' samples of ', len(train_dataset['window_inputs']))
 
                 print('fitting with ', len(full_input), ' samples')
-                self.recurrent.fit(full_input, full_output, epochs=1,  # validation_split=0.25,
+                self.model.fit(full_input, full_output, epochs=1,  # validation_split=0.25,
                                    # no validation data! ## check this!
                                    # validation_data=(online_valx,online_valy), # what about the validation data? Keep the one as in the offline test?
                                    batch_size=self.parameters.get('batch_size'))  # , callbacks=[ earlystop, tbCallBack ] )
 
                 if self.parameters.get('memory_update_strategy') == MemUpdateStrategy.HIGH_LEARNING_PROGRESS.value or self.parameters.get('memory_update_strategy') == MemUpdateStrategy.LOW_LEARNING_PROGRESS.value:
                     print ('updating learning progress for each memory element')
-                    self.memory.update_learning_progress(self.recurrent)
+                    self.memory.update_learning_progress(self.model)
 
                 # print 'current memory output' # to not print the full windows, just print the output and check if things are slowly changing
                 # print memory_input

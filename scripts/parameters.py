@@ -15,6 +15,7 @@ class Parameters:
 
     def __init__(self):
         self.dictionary = {
+            'model_type':'recurrent', # recurrent or mlp
             'directory': '',
             'normalization_limits': [-0.9, 0.9],
             'day_size': 288, # how many samples in a day
@@ -34,6 +35,7 @@ class Parameters:
             'batchs_to_update_online': 3,
             'mse_test_dataset_fraction' : 20,  #   how many samples to use in the MSE calculations? dataset_size / this.
             'mse_calculation_step': 4, # calculate MSE every X model fits
+            'experiment_repetition': -1,
             'verbosity_level': 0
         }
 
