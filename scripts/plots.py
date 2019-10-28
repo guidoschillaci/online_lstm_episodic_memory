@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.dates as mdates
 from parameters import MemUpdateStrategy
 import pickle
@@ -63,14 +64,14 @@ def plot_pca(data1, data2, data3, data4, out1, out2, out3, out4):
     print ('shape reshaped', data1_reshaped.shape)
     pca.fit(np.vstack((data1_reshaped, data2_reshaped, data3_reshaped, data4_reshaped)))
     print('transform...')
-    X1 = pca.transform(data1_reshaped)
-    X2 = pca.transform(data2_reshaped)
-    X3 = pca.transform(data3_reshaped)
-    X4 = pca.transform(data4_reshaped)
+    X1 = pca.transform(data1_reshaped[::1])
+    X2 = pca.transform(data2_reshaped[::1])
+    X3 = pca.transform(data3_reshaped[::1])
+    X4 = pca.transform(data4_reshaped[::1])
 
 
     #github.com/mirandal-gh/pca
-    # pca.explain_variance_ratio_
+    print ('explained variance ratio ' , pca.explained_variance_ratio_)
     # pca.explain_variance_ratio_.cumsum()
 
     print ('shape x1 ', np.asarray(X1).shape)
@@ -82,13 +83,27 @@ def plot_pca(data1, data2, data3, data4, out1, out2, out3, out4):
     plt.scatter(X3[:,0], X3[:,1], s=area, c='purple', alpha = 0.2, label='gh2(>2016)')
     plt.scatter(X4[:,0], X4[:,1], s=area, c='b', alpha = 0.2, label='gh3')
     plt.legend(loc='upper right')
-    plt.title('PCA')
-    plt.xlabel('PCA1')
-    plt.ylabel('PCA2')
+    plt.title('PCA - First two components')
+    plt.xlabel('PC1. EVR: %1.2f' % pca.explained_variance_ratio_[0])
+    plt.ylabel('PC2. EVR: %1.2f' % pca.explained_variance_ratio_[1])
     plt.savefig('pca.png')
     plt.show()
 
 
+    fig = plt.figure()
+    ax = Axes3D(fig)
+
+    ax.scatter(X1[:,0], X1[:,1], X1[:,2], s=area, c='g', alpha = 0.2, label='gh1')
+    ax.scatter(X2[:,0], X2[:,1], X2[:,2], s=area, c='red', alpha = 0.2, label='gh2(2015)')
+    ax.scatter(X3[:,0], X3[:,1], X3[:,2], s=area, c='purple', alpha = 0.2, label='gh2(>2016)')
+    ax.scatter(X4[:,0], X4[:,1], X4[:,2], s=area, c='b', alpha = 0.2, label='gh3')
+    plt.legend(loc='upper right')
+    plt.title('PCA - First three components')
+    ax.set_xlabel('PC1. EVR: %1.2f' % pca.explained_variance_ratio_[0])
+    ax.set_ylabel('PC2. EVR: %1.2f' % pca.explained_variance_ratio_[1])
+    ax.set_zlabel('PC3. EVR: %1.2f' % pca.explained_variance_ratio_[2])
+    plt.savefig('pca3D.png')
+    plt.show()
 
 
 def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_intermediate=False):
@@ -332,8 +347,8 @@ def plot_var(directory, switch, experiments=3 ):
 
 if __name__ == "__main__":
 
-    do_mse_plots = True
-    do_pca = False
+    do_mse_plots = False
+    do_pca = True
 
     if do_pca:
         param = parameters.Parameters()

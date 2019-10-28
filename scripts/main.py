@@ -99,8 +99,8 @@ if __name__ == "__main__":
                 models = model.Model(paramet)
                 len_train_ds = len(train_datasets)
                 #test = test_datasets  # [d] # all datasets
-                #for d in range(len_train_ds):
-                for d in range(1):
+                for d in range(len_train_ds):
+                #for d in range(1):
                     train = train_datasets[d]
                     greenhouse_index = train_datasets[d]['greenhouse_index']
 
