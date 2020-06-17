@@ -489,10 +489,10 @@ if __name__ == "__main__":
 
     if do_mse_plots:
         #main_path = 'results_good_5days/'
-        #main_path = 'results/'
-        main_path = 'results_good_2_days/'
+        main_path = 'results/'
+        #main_path = 'results_good_2_days/'
         is_nomemory_exp_available = True
-        iterations = 5
+        iterations =  5
 
         # have you carried out experiments also without using memory? (memory size == 0)
         if is_nomemory_exp_available:

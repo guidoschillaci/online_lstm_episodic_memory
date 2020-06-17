@@ -24,8 +24,8 @@ else:
 if __name__ == "__main__":
 
     do_no_memory_experiment = False
-    experiment_repetitions = 1 # was 5
-    days_in_win = 2
+    experiment_repetitions = 10
+    days_in_win = 1
     if not os.path.isfile('results/design_of_experiments.csv'):
 
         # consider other methods than full factiorial, if having too many parameters
@@ -37,8 +37,8 @@ if __name__ == "__main__":
              'memory_update_probability': [0.05], #[0.0001, 0.001],
             # make sure that the following has same orderas memupdatestrategy Enum (in parameters.py). TODO: make this better!
             # 'memory_update_strategy': [ MemUpdateStrategy.RANDOM]
-            #'memory_update_strategy': [  MemUpdateStrategy.HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
-                'memory_update_strategy': [MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
+            'memory_update_strategy': [  MemUpdateStrategy.HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
+              #  'memory_update_strategy': [MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
 
                 #     #            it was [HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS  MemUpdateStrategy.RANDOM ]
 
