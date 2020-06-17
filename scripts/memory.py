@@ -39,8 +39,8 @@ class Memory:
                     i = random.randrange(0, len(self.input_variables))
                     ran = random.random()
                     if ran < self.parameters.get('memory_update_probability'):
-                        self.input_variables[i] = input_window
-                        self.output_variables[i] = output_window
+                        self.input_variables[i] = deepcopy(input_window)
+                        self.output_variables[i] = deepcopy(output_window)
                         self.greenhouse_index[i] = gh_index
                         self.prediction_errors[i] = []
                         self.learning_progress[i] = np.nan
@@ -52,8 +52,8 @@ class Memory:
                     ran = random.random()
                     if ran < self.parameters.get('memory_update_probability'):
                         index = self.learning_progress.index( np.nanmin (self.learning_progress)) # gives high plasticity?
-                        self.input_variables[index] = input_window
-                        self.output_variables[index] = output_window
+                        self.input_variables[index] = deepcopy(input_window)
+                        self.output_variables[index] = deepcopy(output_window)
                         self.greenhouse_index[index] = gh_index
                         self.prediction_errors[index] = []
                         self.learning_progress[index] = np.nan
@@ -65,8 +65,8 @@ class Memory:
                     ran = random.random()
                     if ran < self.parameters.get('memory_update_probability'):
                         index = self.learning_progress.index( np.nanmax (self.learning_progress)) # gives low plasticity?
-                        self.input_variables[index] = input_window
-                        self.output_variables[index] = output_window
+                        self.input_variables[index] = deepcopy(input_window)
+                        self.output_variables[index] = deepcopy(output_window)
                         self.greenhouse_index[index] = gh_index
                         self.prediction_errors[index] = []
                         self.learning_progress[index] = np.nan

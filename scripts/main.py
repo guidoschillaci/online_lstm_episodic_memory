@@ -23,9 +23,9 @@ else:
 
 if __name__ == "__main__":
 
-    do_no_memory_experiment = True
-    experiment_repetitions = 5
-    days_in_win = 1
+    do_no_memory_experiment = False
+    experiment_repetitions = 1 # was 5
+    days_in_win = 2
     if not os.path.isfile('results/design_of_experiments.csv'):
 
         # consider other methods than full factiorial, if having too many parameters
@@ -33,11 +33,13 @@ if __name__ == "__main__":
         doe = build.full_fact(
             {
              'days_in_window' : [days_in_win], #[1, 7],
-             'memory_size': [500], # fix this to day_size * x?
+             'memory_size': [100], # was [500],# fix this to day_size * x?
              'memory_update_probability': [0.05], #[0.0001, 0.001],
             # make sure that the following has same orderas memupdatestrategy Enum (in parameters.py). TODO: make this better!
-             'memory_update_strategy': [ MemUpdateStrategy.RANDOM]
+            # 'memory_update_strategy': [ MemUpdateStrategy.RANDOM]
             #'memory_update_strategy': [  MemUpdateStrategy.HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
+                'memory_update_strategy': [MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
+
                 #     #            it was [HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS  MemUpdateStrategy.RANDOM ]
 
             }
@@ -66,7 +68,7 @@ if __name__ == "__main__":
         print('************************************************')
         # create parameters object
         paramet = Parameters()
-        #paramet.set('days_in_window', 1)
+        #paramet.set('days_in_window', 2)
         paramet.set('days_in_window', days_in_win)
         #paramet.set('memory_update_probability', doe.loc[exp, 'memory_update_probability'] )
         #paramet.set('memory_update_strategy', doe.loc[exp, 'memory_update_strategy'] )

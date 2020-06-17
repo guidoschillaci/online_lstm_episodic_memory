@@ -11,8 +11,8 @@ from tensorflow.python.keras.activations import sigmoid
 from tensorflow.python.keras.activations import hard_sigmoid
 from tensorflow.python.keras.callbacks import EarlyStopping
 from tensorflow.python.keras.callbacks import TensorBoard
-from tensorflow.python.keras.utils import plot_model
-#from tensorflow.python.keras.utils.vis_utils import plot_model
+#from tensorflow.python.keras.utils import plot_model
+from tensorflow.python.keras.utils.vis_utils import plot_model
 
 
 import datetime

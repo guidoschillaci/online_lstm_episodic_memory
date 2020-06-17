@@ -36,7 +36,7 @@ class Parameters:
             'mse_test_dataset_fraction' : 20,  #   how many samples to use in the MSE calculations? dataset_size / this.
             'mse_calculation_step': 4, # calculate MSE every X model fits
             'experiment_repetition': -1,
-            'verbosity_level': 0
+            'verbosity_level': 1
         }
 
         #with open(os.path.join( self.get('directory'), 'parameters.txt'), 'w') as f:
