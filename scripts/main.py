@@ -10,7 +10,7 @@ from doepy import build, read_write # pip install doepy - it may require also di
 
 import tensorflow as tf
 
-GPU_FRACTION = 0.2
+GPU_FRACTION = 1.0
 
 if tf.__version__ < "1.8.0":
     config = tf.ConfigProto()
@@ -23,7 +23,7 @@ else:
 
 if __name__ == "__main__":
 
-    do_no_memory_experiment = False
+    do_no_memory_experiment = True
     experiment_repetitions = 10
     days_in_win = 1
     if not os.path.isfile('results/design_of_experiments.csv'):
