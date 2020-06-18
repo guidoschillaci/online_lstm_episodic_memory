@@ -15,7 +15,7 @@ class Parameters:
 
     def __init__(self):
         self.dictionary = {
-            'model_type':'mlp', # recurrent or mlp
+            'model_type':'recurrent', # recurrent or mlp
             'directory': '',
             'normalization_limits': [-0.9, 0.9],
             'day_size': 288, # how many samples in a day
