@@ -33,7 +33,7 @@ if __name__ == "__main__":
         doe = build.full_fact(
             {
              'days_in_window' : [days_in_win], #[1, 7],
-             'memory_size': [100], # was [500],# fix this to day_size * x?
+             'memory_size': [1000], # was [500],# fix this to day_size * x?
              'memory_update_probability': [0.05], #[0.0001, 0.001],
             # make sure that the following has same orderas memupdatestrategy Enum (in parameters.py). TODO: make this better!
             # 'memory_update_strategy': [ MemUpdateStrategy.RANDOM]

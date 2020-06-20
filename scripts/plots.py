@@ -47,7 +47,7 @@ def tsne(data):
     )
     plt.savefig('t-sne.png')
 
-def plot_pca(data1, data2, data3, data4, out1, out2, out3, out4):
+def plot_pca(data1, data2, data3, data4, out1, out2, out3, out4, show =False):
     time_start = time.time()
     pca = decomposition.PCA(n_components=4)
     print('fit...')
@@ -87,7 +87,8 @@ def plot_pca(data1, data2, data3, data4, out1, out2, out3, out4):
     plt.xlabel('PC1. EVR: %1.2f' % pca.explained_variance_ratio_[0])
     plt.ylabel('PC2. EVR: %1.2f' % pca.explained_variance_ratio_[1])
     plt.savefig('pca.png')
-    plt.show()
+    if show:
+        plt.show()
 
 
     fig = plt.figure()
@@ -103,10 +104,11 @@ def plot_pca(data1, data2, data3, data4, out1, out2, out3, out4):
     ax.set_ylabel('PC2. EVR: %1.2f' % pca.explained_variance_ratio_[1])
     ax.set_zlabel('PC3. EVR: %1.2f' % pca.explained_variance_ratio_[2])
     plt.savefig('pca3D.png')
-    plt.show()
+    if show:
+        plt.show()
 
 
-def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_intermediate=False):
+def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_intermediate=False, show_comparisons = False):
 
     mse_all = []
     input_var_all = []
@@ -294,7 +296,8 @@ def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_in
         'Mean Squared Error - ' + ('No Memory ' if no_memory else (
                     'MemStrategy: ' + get_strategy_name(int(parameters['memory_update_strategy'])))) )
     plt.savefig(directory + 'learning_progress.png')
-    plt.show()
+    if show_comparisons:
+        plt.show()
 
 
     if not no_memory:
@@ -334,7 +337,7 @@ def do_plots(directory, greenhouses = 4, iterations =1, no_memory=False, show_in
 
 
 
-def do_plots_singletest(directory, greenhouses = 4, iterations =1, no_memory=False, show_intermediate=False):
+def do_plots_singletest(directory, greenhouses = 4, iterations =1, no_memory=False, show=False ):# show_intermediate=False):
 
     mse_all = []
     input_var_all = []
@@ -417,7 +420,8 @@ def do_plots_singletest(directory, greenhouses = 4, iterations =1, no_memory=Fal
         'Mean Squared Error - ' + ('No Memory ' if no_memory else (
                     'MemStrategy: ' + get_strategy_name(int(parameters['memory_update_strategy'])))) )
     plt.savefig(directory + 'learning_progress.png')
-    plt.show()
+    if show:
+        plt.show()
 
 
     plt.close()
@@ -429,7 +433,7 @@ def do_plots_singletest(directory, greenhouses = 4, iterations =1, no_memory=Fal
 
 
 
-def plot_var(directory, switch, experiments=3 ):
+def plot_var(directory, switch, experiments=3 , show =False):
 
     colors = ['r', 'b', 'g']
     fig, ax = plt.subplots(1, 1, figsize=(10, 7))
@@ -443,11 +447,12 @@ def plot_var(directory, switch, experiments=3 ):
         ax.axvline(x=switch[0], color='r', linestyle='dashed')
         ax.axvline(x=switch[1], color='purple', linestyle='dashed')
         ax.axvline(x=switch[2], color='b', linestyle='dashed')
-        plt.ylim(0, 0.08)
+        plt.ylim(0, 0.15)
     #  plt.xlim(0, 200)
     plt.title('Variance of the output features of the memory samples')
     plt.savefig(directory + 'output_variance.png')
-    plt.show()
+    if show:
+        plt.show()
 
 
 if __name__ == "__main__":
@@ -489,10 +494,10 @@ if __name__ == "__main__":
 
     if do_mse_plots:
         #main_path = 'results_good_5days/'
-        main_path = 'results/'
+        main_path = 'res_100_mlp_m1/'
         #main_path = 'results_good_2_days/'
         is_nomemory_exp_available = True
-        iterations =  5
+        iterations =  10
 
         # have you carried out experiments also without using memory? (memory size == 0)
         if is_nomemory_exp_available:
