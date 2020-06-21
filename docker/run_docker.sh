@@ -15,6 +15,6 @@ if [ ! "$(docker ps -q -f name=${DOCKER_CONTAINER_NAME})" ]; then
       --runtime=nvidia \
       --gpus all \
       --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-      --volume="/home/ubuntu/online_lstm_episodic_memory:/online_lstm_episodic_memory/:rw"  \
-      guidoski/greenhouse:tf2-gpu-py3 bash
+      --volume="/home/guido/code/online_lstm_episodic_memory:/home/green/online_lstm_episodic_memory/:rw"  \
+      guidoski/greenhouse:latest bash
 fi
