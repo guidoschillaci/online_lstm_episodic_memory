@@ -23,7 +23,7 @@ import tensorflow as tf
 #    config.gpu_options.per_process_gpu_memory_fraction = GPU_FRACTION
 #    session = tf.compat.v1.Session(config=config)
 
-def get_doe_mem_strategy_string_to_float(self, mem_upd_strategy_string):
+def get_doe_mem_strategy_string_to_float(mem_upd_strategy_string):
     if mem_upd_strategy_string == 'High_LP':
         return 0.0
     elif mem_upd_strategy_string == 'Low_LP':
@@ -33,7 +33,7 @@ def get_doe_mem_strategy_string_to_float(self, mem_upd_strategy_string):
     print ('error main.get_doe_mem_strategy_string_to_float: wrong mem_upd_strategy_string')
     sys.exit(0)
 
-def get_doe_mem_strategy_float_to_string(self, mem_upd_strategy_float):
+def get_doe_mem_strategy_float_to_string( mem_upd_strategy_float):
     if mem_upd_strategy_float == 0.0 :
         return 'High_LP'
     elif mem_upd_strategy_float == 1.0:
