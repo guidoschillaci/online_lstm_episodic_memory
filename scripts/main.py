@@ -148,7 +148,7 @@ if __name__ == "__main__":
         paramet.set('memory_update_probability', doe.loc[exp, 'memory_update_probability'] )
         paramet.set('memory_update_strategy', doe.loc[exp, 'memory_update_strategy'] )
 
-        # perform 5 repetitions of the same experiment
+        # perform N repetitions of the same experiment
         for repeat in range(experiment_repetitions):
             model_name = 'exp_' + str(exp) + '_iter_' + str(repeat)
             paramet.set('experiment_repetition', repeat)

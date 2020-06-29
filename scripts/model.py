@@ -82,7 +82,7 @@ class Model:
         self.memory_size = self.parameters.get('memory_size')  # how many windows to keep in memory?
         self.prob_update = self.parameters.get('memory_update_probability') # probability of substituting an element of the memory with the current observations
 
-
+        print ('Memory update strategy is ', self.parameters.get('memory_update_strategy'))
         self.memory = memory.Memory(param = self.parameters)
         self.logger = logger.Logger(param = self.parameters)
 
@@ -102,6 +102,12 @@ class Model:
         output_batch = []
       #  for i in range(2):
         for i in range(len(train_dataset['window_inputs'])):
+
+            if self.parameters.get('memory_size')!=0:
+                print('Mem_upd_str: ', self.parameters.get('memory_update_strategy'), ' repet.nr.:', self.parameteres.get('experiment_repetition'))
+            else:
+                print('No_memory exp, repet.nr.:', self.parameteres.get('experiment_repetition'))
+
             input_batch.append(train_dataset['window_inputs'][i])
             output_batch.append(train_dataset['window_outputs'][i])
 
