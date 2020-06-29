@@ -46,9 +46,9 @@ def get_doe_mem_strategy_float_to_string( mem_upd_strategy_float):
 
 if __name__ == "__main__":
 
-    do_no_memory_experiment = False
+    do_no_memory_experiment = True
     experiment_repetitions = 10
-    days_in_win = 1
+    days_in_win = 2
     if not os.path.isfile('results/design_of_experiments.csv'):
 
         # consider other methods than full factiorial, if having too many parameters
