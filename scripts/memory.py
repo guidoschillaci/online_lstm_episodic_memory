@@ -34,7 +34,7 @@ class Memory:
                 self.learning_progress.append(np.nan)
             else:
                 #if self.parameters.get('memory_update_strategy') == MemUpdateStrategy.RANDOM.value:
-                if self.parameters.get('memory_update_strategy') == 'Random':
+                if self.parameters.get('memory_update_strategy') == 'Random' or np.isnan(self.learning_progress).all():
                     # iterate the memory and decide whether to assign the current sample to an element or not, with probability p
                     #for i in range(len(self.input_variables)):
                     i = random.randrange(0, len(self.input_variables))
