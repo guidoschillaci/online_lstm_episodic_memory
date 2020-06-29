@@ -103,11 +103,6 @@ class Model:
       #  for i in range(2):
         for i in range(len(train_dataset['window_inputs'])):
 
-            if self.parameters.get('memory_size')!=0:
-                print('Mem_upd_str: ', self.parameters.get('memory_update_strategy'), ' repet.nr.:', self.parameters.get('experiment_repetition'))
-            else:
-                print('No_memory exp, repet.nr.:', self.parameters.get('experiment_repetition'))
-
             input_batch.append(train_dataset['window_inputs'][i])
             output_batch.append(train_dataset['window_outputs'][i])
 
@@ -154,6 +149,13 @@ class Model:
                 output_batch = []
 
             if i % (self.parameters.get('mse_calculation_step') * self.parameters.get('batch_size')) == 0:
+
+                if self.parameters.get('memory_size') != 0:
+                    print('Mem_upd_str: ', self.parameters.get('memory_update_strategy'), ' repet.nr.:',
+                          self.parameters.get('experiment_repetition'))
+                else:
+                    print('No_memory exp, repet.nr.:', self.parameters.get('experiment_repetition'))
+
                 mse_all =[]
                 for td in range(len(test_dataset)): # compute mse for all the test datasets of each greenhouse
                     mse_all.append(self.compute_mse(test_dataset[td]))
@@ -166,6 +168,7 @@ class Model:
                                       count_of_changed_memory_elements = count_of_changed_memory_elements, learning_progress=learn_progress)
                 for td in range(len(test_dataset)):  # compute mse for all the test datasets of each greenhouse
                     print ('mse(gh'+str(td)+'):' +str(mse_all[td]) + ' idx_prop '+ str(mem_idx_prop))
+
 
         self.logger.switch_dataset() # store the len of the mse vector
         del input_batch

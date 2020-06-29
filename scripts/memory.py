@@ -53,7 +53,7 @@ class Memory:
                     #for i in range(len(self.input_variables)):
                     ran = random.random()
                     if ran < self.parameters.get('memory_update_probability'):
-                        index = self.learning_progress.index( np.nanmin (self.learning_progress)) # gives high plasticity?
+                        index = self.learning_progress.index( np.nanmin (self.learning_progress))
                         self.input_variables[index] = deepcopy(input_window)
                         self.output_variables[index] = deepcopy(output_window)
                         self.greenhouse_index[index] = gh_index
@@ -67,7 +67,7 @@ class Memory:
                     #for i in range(len(self.input_variables)):
                     ran = random.random()
                     if ran < self.parameters.get('memory_update_probability'):
-                        index = self.learning_progress.index( np.nanmax (self.learning_progress)) # gives low plasticity?
+                        index = self.learning_progress.index( np.nanmax (self.learning_progress))
                         self.input_variables[index] = deepcopy(input_window)
                         self.output_variables[index] = deepcopy(output_window)
                         self.greenhouse_index[index] = gh_index
