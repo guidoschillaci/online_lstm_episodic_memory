@@ -4,6 +4,7 @@ import numpy as np
 import model
 import time
 import os
+import sys
 
 
 from doepy import build, read_write # pip install doepy - it may require also diversipy
@@ -22,6 +23,27 @@ import tensorflow as tf
 #    config.gpu_options.per_process_gpu_memory_fraction = GPU_FRACTION
 #    session = tf.compat.v1.Session(config=config)
 
+def get_doe_mem_strategy_string_to_float(self, mem_upd_strategy_string):
+    if mem_upd_strategy_string == 'High_LP':
+        return 0.0
+    elif mem_upd_strategy_string == 'Low_LP':
+        return 1.0
+    elif mem_upd_strategy_string == 'Random':
+        return 2.0
+    print ('error main.get_doe_mem_strategy_string_to_float: wrong mem_upd_strategy_string')
+    sys.exit(0)
+
+def get_doe_mem_strategy_float_to_string(self, mem_upd_strategy_float):
+    if mem_upd_strategy_float == 0.0 :
+        return 'High_LP'
+    elif mem_upd_strategy_float == 1.0:
+        return 'Low_LP'
+    elif mem_upd_strategy_float == 2.0:
+        return 'Random'
+    print ('error main.get_doe_mem_strategy_float_to_string: wrong mem_upd_strategy_float')
+    sys.exit(0)
+
+
 if __name__ == "__main__":
 
     do_no_memory_experiment = False
@@ -39,7 +61,9 @@ if __name__ == "__main__":
             # make sure that the following has same orderas memupdatestrategy Enum (in parameters.py). TODO: make this better!
             # 'memory_update_strategy': [ MemUpdateStrategy.RANDOM]
             #'memory_update_strategy': [  MemUpdateStrategy.HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
-             'memory_update_strategy': ['High_LP', 'Low_LP', 'Random']
+             'memory_update_strategy': [get_doe_mem_strategy_string_to_float('High_LP'),
+                                        get_doe_mem_strategy_string_to_float('Low_LP'),
+                                        get_doe_mem_strategy_string_to_float('Random')]
                 #  'memory_update_strategy': [MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
 
                 #     #            it was [HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS  MemUpdateStrategy.RANDOM ]
@@ -146,7 +170,7 @@ if __name__ == "__main__":
         paramet.set('days_in_window', doe.loc[exp, 'days_in_window'] )
         paramet.set('memory_size', doe.loc[exp, 'memory_size'] )
         paramet.set('memory_update_probability', doe.loc[exp, 'memory_update_probability'] )
-        paramet.set('memory_update_strategy', doe.loc[exp, 'memory_update_strategy'] )
+        paramet.set('memory_update_strategy',  get_doe_mem_strategy_float_to_string(doe.loc[exp, 'memory_update_strategy']) )
 
         # perform N repetitions of the same experiment
         for repeat in range(experiment_repetitions):
