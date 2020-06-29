@@ -151,10 +151,10 @@ class Model:
             if i % (self.parameters.get('mse_calculation_step') * self.parameters.get('batch_size')) == 0:
 
                 if self.parameters.get('memory_size') != 0:
-                    print('Mem_upd_str: ', self.parameters.get('memory_update_strategy'), ' repet.nr.:',
+                    print('Mem_upd_str: ', self.parameters.get('memory_update_strategy'), ' run nr.:',
                           self.parameters.get('experiment_repetition'))
                 else:
-                    print('No_memory exp, repet.nr.:', self.parameters.get('experiment_repetition'))
+                    print('No_memory exp, run nr.:', self.parameters.get('experiment_repetition'))
 
                 mse_all =[]
                 for td in range(len(test_dataset)): # compute mse for all the test datasets of each greenhouse
