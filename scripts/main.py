@@ -24,7 +24,7 @@ import tensorflow as tf
 
 if __name__ == "__main__":
 
-    do_no_memory_experiment = True
+    do_no_memory_experiment = False
     experiment_repetitions = 10
     days_in_win = 1
     if not os.path.isfile('results/design_of_experiments.csv'):
