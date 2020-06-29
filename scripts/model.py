@@ -137,7 +137,7 @@ class Model:
                                    # validation_data=(online_valx,online_valy), # what about the validation data? Keep the one as in the offline test?
                                    batch_size=self.parameters.get('batch_size'))  # , callbacks=[ earlystop, tbCallBack ] )
 
-                if self.parameters.get('memory_update_strategy') == MemUpdateStrategy.HIGH_LEARNING_PROGRESS.value or self.parameters.get('memory_update_strategy') == MemUpdateStrategy.LOW_LEARNING_PROGRESS.value:
+                if self.parameters.get('memory_update_strategy') == 'High_LP' or self.parameters.get('memory_update_strategy') == 'Low_LP':
                     print ('updating learning progress for each memory element')
                     self.memory.update_learning_progress(self.model)
 
