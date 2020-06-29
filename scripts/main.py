@@ -103,7 +103,7 @@ if __name__ == "__main__":
         # perform 5 repetitions of the same experiment
         for repeat in range(experiment_repetitions):
             model_name = 'exp_' + (exp) + '_iter_' + str(repeat)
-
+            paramet.set('experiment_repetition', repeat)
             paramet.set('directory', model_name)
             # print (os.path.isdir('../../results/' + paramet.get('directory') ))
             if not os.path.isdir('results/' + paramet.get('directory')):
