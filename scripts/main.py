@@ -10,16 +10,17 @@ from doepy import build, read_write # pip install doepy - it may require also di
 
 import tensorflow as tf
 
-GPU_FRACTION = 1.0
 
-if tf.__version__ < "1.8.0":
-    config = tf.ConfigProto()
-    config.gpu_options.per_process_gpu_memory_fraction = GPU_FRACTION
-    session = tf.Session(config=config)
-else:
-    config = tf.compat.v1.ConfigProto()
-    config.gpu_options.per_process_gpu_memory_fraction = GPU_FRACTION
-    session = tf.compat.v1.Session(config=config)
+#GPU_FRACTION = 1.0
+
+#if tf.__version__ < "1.8.0":
+#    config = tf.ConfigProto()
+#    config.gpu_options.per_process_gpu_memory_fraction = GPU_FRACTION
+#    session = tf.Session(config=config)
+#else:
+#    config = tf.compat.v1.ConfigProto()
+#    config.gpu_options.per_process_gpu_memory_fraction = GPU_FRACTION
+#    session = tf.compat.v1.Session(config=config)
 
 if __name__ == "__main__":
 
@@ -37,8 +38,9 @@ if __name__ == "__main__":
              'memory_update_probability': [0.05], #[0.0001, 0.001],
             # make sure that the following has same orderas memupdatestrategy Enum (in parameters.py). TODO: make this better!
             # 'memory_update_strategy': [ MemUpdateStrategy.RANDOM]
-            'memory_update_strategy': [  MemUpdateStrategy.HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
-              #  'memory_update_strategy': [MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
+            #'memory_update_strategy': [  MemUpdateStrategy.HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
+             'memory_update_strategy': ['High_LP', 'Low_LP', 'Random']
+                #  'memory_update_strategy': [MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
 
                 #     #            it was [HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS  MemUpdateStrategy.RANDOM ]
 

@@ -33,7 +33,8 @@ class Memory:
                 self.prediction_errors.append([])
                 self.learning_progress.append(np.nan)
             else:
-                if self.parameters.get('memory_update_strategy') == MemUpdateStrategy.RANDOM.value:
+                #if self.parameters.get('memory_update_strategy') == MemUpdateStrategy.RANDOM.value:
+                if self.parameters.get('memory_update_strategy') == 'Random':
                     # iterate the memory and decide whether to assign the current sample to an element or not, with probability p
                     #for i in range(len(self.input_variables)):
                     i = random.randrange(0, len(self.input_variables))
@@ -45,7 +46,8 @@ class Memory:
                         self.prediction_errors[i] = []
                         self.learning_progress[i] = np.nan
                             #counter_of_changed_elements = counter_of_changed_elements + 1
-                elif self.parameters.get('memory_update_strategy') == MemUpdateStrategy.LOW_LEARNING_PROGRESS.value:
+                #elif self.parameters.get('memory_update_strategy') == MemUpdateStrategy.LOW_LEARNING_PROGRESS.value:
+                elif self.parameters.get('memory_update_strategy') == 'Low_LP':
                     # select the element with the highest or lowest learning progress (which of the two is the best?
                     # and substitute it with the new sample - with probability p
                     #for i in range(len(self.input_variables)):
@@ -58,7 +60,8 @@ class Memory:
                         self.prediction_errors[index] = []
                         self.learning_progress[index] = np.nan
                             #counter_of_changed_elements = counter_of_changed_elements +1
-                elif self.parameters.get('memory_update_strategy') == MemUpdateStrategy.HIGH_LEARNING_PROGRESS.value:
+                #elif self.parameters.get('memory_update_strategy') == MemUpdateStrategy.HIGH_LEARNING_PROGRESS.value:
+                elif self.parameters.get('memory_update_strategy') == 'High_LP':
                     # select the element with the highest or lowest learning progress (which of the two is the best?
                     # and substitute it with the new sample - with probability p
                     #for i in range(len(self.input_variables)):
@@ -87,9 +90,9 @@ class Memory:
         output_var = 0
         if len(self.input_variables) >0:
             input_var = np.var(self.input_variables)
-            print ('input var  ' + str(input_var))
+            #print ('input var  ' + str(input_var))
             output_var = np.var(self.output_variables)
-            print ('output var  ' + str(output_var))
+            #print ('output var  ' + str(output_var))
         return input_var, output_var
 
     def get_learning_progress(self):
