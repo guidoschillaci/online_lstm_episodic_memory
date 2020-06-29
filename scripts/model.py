@@ -104,9 +104,9 @@ class Model:
         for i in range(len(train_dataset['window_inputs'])):
 
             if self.parameters.get('memory_size')!=0:
-                print('Mem_upd_str: ', self.parameters.get('memory_update_strategy'), ' repet.nr.:', self.parameteres.get('experiment_repetition'))
+                print('Mem_upd_str: ', self.parameters.get('memory_update_strategy'), ' repet.nr.:', self.parameters.get('experiment_repetition'))
             else:
-                print('No_memory exp, repet.nr.:', self.parameteres.get('experiment_repetition'))
+                print('No_memory exp, repet.nr.:', self.parameters.get('experiment_repetition'))
 
             input_batch.append(train_dataset['window_inputs'][i])
             output_batch.append(train_dataset['window_outputs'][i])
