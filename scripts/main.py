@@ -49,7 +49,7 @@ def get_doe_mem_strategy_float_to_string( mem_upd_strategy_float):
 
 def read_csv_doe_file(csvfile):
     # readapted from https://github.com/tirthajyoti/doepy/blob/master/doepy/read_write.py
-    dict_key = {}
+    dict_key = []
     try:
         #with open(csvfile) as f:
         with open(csvfile, 'r') as read_obj:
@@ -60,10 +60,7 @@ def read_csv_doe_file(csvfile):
             for row in reader:
                 print ('here2')
                 print('row'+str(row))
-                lst = []
-                for field in fields:
-                    lst.append(float(row[field]))
-                dict_key[row] = lst
+                dict_key.append(row)
 
         return dict_key
     except:
