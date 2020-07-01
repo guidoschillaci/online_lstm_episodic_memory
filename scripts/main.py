@@ -60,7 +60,10 @@ def read_csv_doe_file(csvfile):
             for row in reader:
                 print ('here2')
                 print('row'+str(row))
-                dict_key.append(row)
+                row_raw = []
+                for field in fields:
+                    row_raw.append(float(row[field]))
+                dict_key.append(row_raw)
 
         return dict_key
     except:
