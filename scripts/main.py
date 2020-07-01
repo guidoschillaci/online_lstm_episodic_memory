@@ -63,9 +63,9 @@ def read_csv_doe_file(csvfile):
                 row_raw = []
                 for field in fields:
                     row_raw.append(float(row[field]))
-                dict_key.append(row_raw)
+                dict_key[row]=row_raw
 
-        return np.asarray(dict_key)
+        return dict_key
     except:
         print(
             "Error in reading the specified file from the disk. Please make sure it is in current directory."
