@@ -55,12 +55,12 @@ def read_csv_doe_file(csvfile):
             print('here')
             reader = csv.DictReader(f)
             fields = reader.fieldnames
+            print (fields)
             for row in reader:
+                print('row'+row)
                 lst = []
-                with open(csvfile) as f:
-                    reader = csv.DictReader(f)
-                    for field in fields:
-                        lst.append(float(row[field]))
+                for field in fields:
+                    lst.append(float(row[field]))
                 dict_key[row] = lst
 
         return dict_key
