@@ -51,12 +51,14 @@ def read_csv_doe_file(csvfile):
     # readapted from https://github.com/tirthajyoti/doepy/blob/master/doepy/read_write.py
     dict_key = {}
     try:
-        with open(csvfile) as f:
+        #with open(csvfile) as f:
+        with open(csvfile, 'r') as read_obj:
             print('here')
-            reader = csv.DictReader(f)
+            reader = csv.DictReader(read_obj)
             fields = reader.fieldnames
             print (fields)
             for row in reader:
+                print ('here2')
                 print('row'+row)
                 lst = []
                 for field in fields:
