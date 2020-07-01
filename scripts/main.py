@@ -46,7 +46,7 @@ def get_doe_mem_strategy_float_to_string( mem_upd_strategy_float):
     print ('error main.get_doe_mem_strategy_float_to_string: wrong mem_upd_strategy_float')
     sys.exit(0)
 
-
+'''
 def read_csv_doe_file(csvfile):
     # readapted from https://github.com/tirthajyoti/doepy/blob/master/doepy/read_write.py
     dict_key = []
@@ -71,7 +71,7 @@ def read_csv_doe_file(csvfile):
             "Error in reading the specified file from the disk. Please make sure it is in current directory."
         )
         return -1
-
+'''
 
 
 if __name__ == "__main__":
@@ -79,36 +79,37 @@ if __name__ == "__main__":
     do_no_memory_experiment = True
     experiment_repetitions = 10
     days_in_win = 2
-    if not os.path.isfile('results/design_of_experiments.csv'):
+#    if not os.path.isfile('results/design_of_experiments.csv'):
 
-        # consider other methods than full factiorial, if having too many parameters
-        # https://doepy.readthedocs.io/en/latest/
-        doe = build.full_fact(
-            {
-             'days_in_window' : [days_in_win], #[1, 7],
-             'memory_size': [1000], # was [500],# fix this to day_size * x?
-             'memory_update_probability': [0.05], #[0.0001, 0.001],
-            # make sure that the following has same orderas memupdatestrategy Enum (in parameters.py). TODO: make this better!
-            # 'memory_update_strategy': [ MemUpdateStrategy.RANDOM]
-            #'memory_update_strategy': [  MemUpdateStrategy.HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
-             'memory_update_strategy': [get_doe_mem_strategy_string_to_float('High_LP'),
-                                        get_doe_mem_strategy_string_to_float('Low_LP'),
-                                        get_doe_mem_strategy_string_to_float('Random')]
-                #  'memory_update_strategy': [MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
+    # consider other methods than full factiorial, if having too many parameters
+    # https://doepy.readthedocs.io/en/latest/
+    doe = build.full_fact(
+        {
+         'days_in_window' : [days_in_win], #[1, 7],
+         'memory_size': [1000], # was [500],# fix this to day_size * x?
+         'memory_update_probability': [0.05], #[0.0001, 0.001],
+        # make sure that the following has same orderas memupdatestrategy Enum (in parameters.py). TODO: make this better!
+        # 'memory_update_strategy': [ MemUpdateStrategy.RANDOM]
+        #'memory_update_strategy': [  MemUpdateStrategy.HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
+         'memory_update_strategy': [get_doe_mem_strategy_string_to_float('High_LP'),
+                                    get_doe_mem_strategy_string_to_float('Low_LP'),
+                                    get_doe_mem_strategy_string_to_float('Random')]
+            #  'memory_update_strategy': [MemUpdateStrategy.LOW_LEARNING_PROGRESS, MemUpdateStrategy.RANDOM]
 
-                #     #            it was [HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS  MemUpdateStrategy.RANDOM ]
+            #     #            it was [HIGH_LEARNING_PROGRESS, MemUpdateStrategy.LOW_LEARNING_PROGRESS  MemUpdateStrategy.RANDOM ]
 
-            }
-        )
+        }
+    )
 
-        # write down to a file the experiments
-        read_write.write_csv(doe,filename='results/design_of_experiments.csv')
-    else:
-        #data_in = read_write.read_variables_csv('results/design_of_experiments.csv')
-        data_in = read_csv_doe_file('results/design_of_experiments.csv')
+    # write down to a file the experiments
+    read_write.write_csv(doe,filename='results/design_of_experiments.csv')
+'''
+    else: # TODO: THERE IS A BUG IN DOEPY read_write.read_variables_csv
+        data_in = read_write.read_variables_csv('results/design_of_experiments.csv')
+        #data_in = read_csv_doe_file('results/design_of_experiments.csv')
         print('data_in '+ str(data_in))
         doe = build.full_fact(data_in)
-
+'''
 
     #debug
     #print (doe.shape[0]) # number of experiments
