@@ -59,7 +59,7 @@ def read_csv_doe_file(csvfile):
             print (fields)
             for row in reader:
                 print ('here2')
-                print('row'+row)
+                print('row'+str(row))
                 lst = []
                 for field in fields:
                     lst.append(float(row[field]))
