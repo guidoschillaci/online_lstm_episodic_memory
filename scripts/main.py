@@ -52,6 +52,7 @@ def read_csv_doe_file(csvfile):
     dict_key = {}
     try:
         with open(csvfile) as f:
+            print('here')
             reader = csv.DictReader(f)
             fields = reader.fieldnames
             for row in reader:
