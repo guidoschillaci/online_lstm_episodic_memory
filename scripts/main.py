@@ -6,6 +6,8 @@ import time
 import os
 import sys
 
+import csv
+
 
 from doepy import build, read_write # pip install doepy - it may require also diversipy
 
@@ -45,6 +47,30 @@ def get_doe_mem_strategy_float_to_string( mem_upd_strategy_float):
     sys.exit(0)
 
 
+def read_csv_doe_file(csvfile):
+    # readapted from https://github.com/tirthajyoti/doepy/blob/master/doepy/read_write.py
+    dict_key = {}
+    try:
+        with open(csvfile) as f:
+            reader = csv.DictReader(f)
+            fields = reader.fieldnames
+            for row in reader:
+                lst = []
+                with open(csvfile) as f:
+                    reader = csv.DictReader(f)
+                    for field in fields:
+                        lst.append(float(row[field]))
+                dict_key[row] = lst
+
+        return dict_key
+    except:
+        print(
+            "Error in reading the specified file from the disk. Please make sure it is in current directory."
+        )
+        return -1
+
+
+
 if __name__ == "__main__":
 
     do_no_memory_experiment = True
@@ -75,7 +101,8 @@ if __name__ == "__main__":
         # write down to a file the experiments
         read_write.write_csv(doe,filename='results/design_of_experiments.csv')
     else:
-        data_in = read_write.read_variables_csv('results/design_of_experiments.csv')
+        #data_in = read_write.read_variables_csv('results/design_of_experiments.csv')
+        data_in = read_csv_doe_file('results/design_of_experiments.csv')
         print('data_in '+ str(data_in))
         doe = build.full_fact(data_in)
 
