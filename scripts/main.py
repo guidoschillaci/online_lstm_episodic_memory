@@ -159,7 +159,7 @@ if __name__ == "__main__":
                 print('Memory freed')
 
     print('Running ' + str(doe.shape[0]) + ' tests, each repeated ' + str(experiment_repetitions) + ' times')
-
+    print('doe '+ doe)
     # run every experiment defined by the parameters set in doe (design of experiment) object
     for exp in range(doe.shape[0]):
         print ('************************************************')
