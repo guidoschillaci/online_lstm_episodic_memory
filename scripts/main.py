@@ -76,6 +76,7 @@ if __name__ == "__main__":
         read_write.write_csv(doe,filename='results/design_of_experiments.csv')
     else:
         data_in = read_write.read_variables_csv('results/design_of_experiments.csv')
+        print('data_in '+ data_in)
         doe = build.full_fact(data_in)
 
 
@@ -159,7 +160,7 @@ if __name__ == "__main__":
                 print('Memory freed')
 
     print('Running ' + str(doe.shape[0]) + ' tests, each repeated ' + str(experiment_repetitions) + ' times')
-    print('doe '+ doe)
+    
     # run every experiment defined by the parameters set in doe (design of experiment) object
     for exp in range(doe.shape[0]):
         print ('************************************************')
