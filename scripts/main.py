@@ -34,6 +34,7 @@ def get_doe_mem_strategy_string_to_float(mem_upd_strategy_string):
     sys.exit(0)
 
 def get_doe_mem_strategy_float_to_string( mem_upd_strategy_float):
+    print ('mem_upd_strategy_float ', mem_upd_strategy_float)
     if mem_upd_strategy_float == 0.0 :
         return 'High_LP'
     elif mem_upd_strategy_float == 1.0:
