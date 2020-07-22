@@ -6,8 +6,11 @@ https://arxiv.org/pdf/1908.01643.pdf
 
 # Diagrams of the neural networks adopted in the paper
 
-Model 1:
+## Model 1:
+
 ![Model 1](figures/model1.png)
 
-Model 2:
+
+
+## Model 2:
 ![Model 2](figures/model2.png)
