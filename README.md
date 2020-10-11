@@ -11,6 +11,16 @@ https://arxiv.org/pdf/1908.01643.pdf
 ![Model 1](figures/model1.png)
 
 
-
 ## Model 2:
 ![Model 2](figures/model2.png)
+
+# Experiments configurations
+
+
+![Experiments](figures/experiments.png)
+
+
+# Tables accompanying the paper
+Tables  illustrate  the  results  of  the  quantitative  analysis  on  the  comparison  between  the discard_low_LP and discard_random consolidation strategies under the four different configurations of the experiments. Periods P1, P2, P3, P4 indicate when the learning algorithm is exposed to training data from, respectively, GH1 dataset, GH2 (year 2015) dataset, GH2 (year 2016) dataset and GH3 dataset. Similarly, rows indicate which test dataset has been used to calculate the MSE for each of the two experiments in the corresponding table.  A linear regression is calculated on each MSE curve.
+
+For each of the experiments comparison, the slope difference is reported (slope of 
