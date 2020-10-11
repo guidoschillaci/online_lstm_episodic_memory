@@ -8,6 +8,8 @@ import pickle
 import os
 from sklearn.manifold import TSNE
 from sklearn import decomposition
+from sklearn.linear_model import LinearRegression
+import statsmodels.formula.api as smf
 import time
 import seaborn as sns
 import load_datasets
@@ -456,13 +458,12 @@ def plot_var(directory, switch, experiments=3, show=False):
     if show:
         plt.show()
 
-def do_ttest_table(directory, mse_means, mse_std_dev, switch_t):
+
+# analyses only between discard_low_LP (experiment 1) and discard_random (experiment 2), for the moment
+def do_slopes_analysis(directory, mse_means, mse_std_dev, switch_t):
     print('starting statistical analysis')
-
-
-    # we do t-tests only between discard_low_LP (experiment 1) and discard_random (experiment 2), for the moment
     alpha = 0.05
-    print('shape ' , np.asarray(mse_means[1]).shape)
+    #print('shape ' , np.asarray(mse_means[1]).shape)
     mean_exp_1 = mse_means[1]
     mean_exp_2 = mse_means[2]
 
@@ -472,60 +473,125 @@ def do_ttest_table(directory, mse_means, mse_std_dev, switch_t):
     ranges.append(range(switch_t[1],switch_t[2]))
     ranges.append(range(switch_t[2],len(mean_exp_1[0])))
 
+    # collect results into tables to format them into latex tabular
     row_name = ['Test GH1', 'Test GH2_15', 'Test GH2_16', 'Test GH3']
-    table_stat = [] # test dataset GH1, GH2_2015, GH2_2016, GH3
-    table_p = [] # test dataset GH1, GH2_2015, GH2_2016, GH3
-    table_mean_diff = []
+    #table_stat = [] # test dataset GH1, GH2_2015, GH2_2016, GH3
+    #table_p = [] # test dataset GH1, GH2_2015, GH2_2016, GH3
+    #table_mean_diff = []
+    table_regress = []
+    table_interaction_pvalues = []
+    table_combined = []
     for l in range(4):
-        line_stat = []
-        line_p = []
-        line_mean_diff = []
-        line_stat.append(row_name[l])
-        line_p.append(row_name[l])
-        line_mean_diff.append(row_name[l])
+        #line_stat = []
+        #line_p = []
+        #line_mean_diff = []
+        line_regress=[]
+        line_interaction_pvalues = []
+        line_combined = []
+        # add headers
+        #line_stat.append(row_name[l])
+        #line_p.append(row_name[l])
+        #line_mean_diff.append(row_name[l])
+        line_regress.append(row_name[l])
+        line_interaction_pvalues.append(row_name[l])
+        line_combined.append(row_name[l])
+
         for i in range(len(ranges)):
             mean_1_l = mean_exp_1[l]
             mean_2_l = mean_exp_2[l]
-            print('segment ', str(i))
-            print('len ', len(mean_1_l[ranges[i]])) # green, i.e. GH1 test data
+            #print('segment ', str(i))
+            #print('len ', len(mean_1_l[ranges[i]])) # green, i.e. GH1 test data
             # are the data normally distributed?
             #shap_stat1, shap_p1 = stats.shapiro(mean_1_l[ranges[i]])
             #shap_stat2, shap_p2 = stats.shapiro(mean_2_l[ranges[i]])
             #print ('shapiro p-value exp 0 ', shap_p1, ' and exp2 ', shap_p2)
             #if shap_p1 > alpha and shap_p2 > alpha:
                 #print ('both data sets are normally distributed,using t-test')
-            stat, p = stats.ttest_rel(mean_1_l[ranges[i]], mean_2_l[ranges[i]])
-            print('Statistics=%.3f, p=%.3f' % (stat, p))
-            if p > alpha:
-                print('Same distribution (fail to reject H0)')
+            #stat, p = stats.ttest_ind(mean_1_l[ranges[i]], mean_2_l[ranges[i]])
+            #print('Statistics=%.3f, p=%.3f' % (stat, p))
+            #if p > alpha:
+            #    print('Same distribution (fail to reject H0)')
+            #else:
+            #    print('Different distribution (reject H0)')
+
+            #else:
+            #    print('assumption of normality violated, using Wilcoxon signed-rank Test')
+            #    stat, p = stats.wilcoxon(mean_1_l[ranges[i]], mean_2_l[ranges[i]])
+            #    print('Statistics=%.3f, p=%.3f' % (stat, p))
+            #    if p > alpha:
+            #        print('Same distribution (fail to reject H0)')
+            #    else:
+            #        print('Different distribution (reject H0)')
+
+
+            #line_stat.append(stat)
+            #line_p.append(p)
+            #line_mean_diff.append(np.mean(mean_1_l[ranges[i]])- np.mean(mean_2_l[ranges[i]]))
+
+            regr_x = np.asarray(range(len(ranges[i]))).reshape((-1, 1))
+            model_1 = LinearRegression().fit(regr_x, np.asarray(mean_1_l[ranges[i]]))
+            model_2 = LinearRegression().fit(regr_x, np.asarray(mean_2_l[ranges[i]]))
+            slope_diff = model_1.coef_[0] - model_2.coef_[0]
+            line_regress.append(slope_diff) # difference between the slopes of the two regressions
+
+            #### slope comparison test: is the difference between the slopes statistically significant?
+            # To check this, add a dummy variable (tells whether the sample is belonging to group 1 or 2)
+            # fit a linear model and check the significance of the interaction factor. If significant, then
+            # the difference between the slopes is statistically significant
+            _values = np.r_[np.asarray(mean_1_l[ranges[i]]), np.asarray(mean_2_l[ranges[i]])]
+            _time = np.r_[ regr_x.flatten(), regr_x.flatten()]
+            # create the dummy variable _group
+            _group = np.r_[np.repeat('MODEL1', len(np.asarray(mean_1_l[ranges[i]]))), \
+                           np.repeat('MODEL2', len(np.asarray(mean_2_l[ranges[i]]))) ]
+            #print('shape val: ', _values.shape)
+            #print('shape xval: ', _time.shape)
+            #print('shape group: ', _group.shape)
+            # put everything in a new dataframe and fit the linear model
+            _df = pd.DataFrame({'values':_values, 'time':_time, 'group':_group})
+            lm1 = smf.ols(formula='values ~ time * group', data=_df).fit()
+            #print(lm1.summary())
+            #print('params ', lm1.params)
+            #print('pvalues ', lm1.pvalues)
+            #print('interaction pvalue ', lm1.pvalues[3]) # this is the interaction time:group
+            line_interaction_pvalues.append(lm1.pvalues[3])
+            comb_string = ''
+            if lm1.pvalues[3] > 0.05:
+                comb_string = comb_string + '-'
             else:
-                print('Different distribution (reject H0)')
-            '''
-            else:
-                print('assumption of normality violated, using Wilcoxon signed-rank Test')
-                stat, p = stats.wilcoxon(mean_1_l[ranges[i]], mean_2_l[ranges[i]])
-                print('Statistics=%.3f, p=%.3f' % (stat, p))
-                if p > alpha:
-                    print('Same distribution (fail to reject H0)')
+                if slope_diff >0:
+                    comb_string = comb_string + 'pos'
                 else:
-                    print('Different distribution (reject H0)')
-            '''
-            line_stat.append(stat)
-            line_p.append(p)
-            line_mean_diff.append(np.mean(mean_1_l[ranges[i]])- np.mean(mean_2_l[ranges[i]]))
-        table_stat.append(line_stat)
-        table_p.append(line_p)
-        table_mean_diff.append(line_mean_diff)
+                    comb_string = comb_string + 'neg'
+                if lm1.pvalues[3] > 0.01:
+                    comb_string = comb_string + '*'
+                else:
+                    comb_string = comb_string + '**'
+            line_combined.append(comb_string)
+
+        #table_stat.append(line_stat)
+        #table_p.append(line_p)
+        #table_mean_diff.append(line_mean_diff)
+        table_regress.append(line_regress)
+        table_interaction_pvalues.append(line_interaction_pvalues)
+        table_combined.append(line_combined)
     headers = ['', 'Period 1', 'Period 2', 'Period 3', 'Period 4']
-    print('means', tabulate.tabulate(table_mean_diff, headers))
-    print (tabulate.tabulate(table_stat, headers))
-    print (tabulate.tabulate(table_p, headers))
-    filename = directory + 'ttest_stat.txt'
-    np.savetxt(filename, ["%s" % tabulate.tabulate(table_stat, headers, tablefmt="latex")], fmt='%s')
-    filename = directory + 'ttest_p.txt'
-    np.savetxt(filename, ["%s" % tabulate.tabulate(table_p, headers, tablefmt="latex")], fmt='%s')
-    filename = directory + 'ttest_mean_diff.txt'
-    np.savetxt(filename, ["%s" % tabulate.tabulate(table_mean_diff, headers, tablefmt="latex")], fmt='%s')
+    #print('means', tabulate.tabulate(table_mean_diff, headers))
+    #print (tabulate.tabulate(table_stat, headers))
+    #print (tabulate.tabulate(table_p, headers))
+    #filename = directory + 'ttest_stat.txt'
+    #np.savetxt(filename, ["%s" % tabulate.tabulate(table_stat, headers, tablefmt="latex")], fmt='%s')
+    #filename = directory + 'ttest_p.txt'
+    #np.savetxt(filename, ["%s" % tabulate.tabulate(table_p, headers, tablefmt="latex")], fmt='%s')
+    #filename = directory + 'ttest_mean_diff.txt'
+    #np.savetxt(filename, ["%s" % tabulate.tabulate(table_mean_diff, headers, tablefmt="latex")], fmt='%s')
+    filename = directory + 'diff_regressions.txt'
+    np.savetxt(filename, ["%s" % tabulate.tabulate(table_regress, headers, tablefmt="latex")], fmt='%s')
+    filename = directory + 'diff_interaction_pvalues.txt'
+    np.savetxt(filename, ["%s" % tabulate.tabulate(table_interaction_pvalues, headers, tablefmt="latex")], fmt='%s')
+    filename = directory + 'diff_combined.txt'
+    np.savetxt(filename, ["%s" % tabulate.tabulate(table_combined, headers, tablefmt="latex")], fmt='%s')
+    print('saved results of statistical analysis')
+
 
 if __name__ == "__main__":
 
@@ -565,7 +631,7 @@ if __name__ == "__main__":
 
     if do_mse_plots:
         # main_path = 'results_good_5days/'
-        main_path = 'Results/revision_results_more_plasticity/results_1day_500/'
+        main_path = 'Results/revision_results/results_1day_500/'
         # main_path = 'results_good_2_days/'
         is_nomemory_exp_available = True
         iterations = 10
@@ -591,7 +657,7 @@ if __name__ == "__main__":
         plot_var(main_path, switch=switch_t[0], experiments=3)
 
         # statistics
-        do_ttest_table(main_path, mse_mean, mse_std_dev, switch_t[0])
+        do_slopes_analysis(main_path, mse_mean, mse_std_dev, switch_t[0])
 
 
         print('All the plots are saved')

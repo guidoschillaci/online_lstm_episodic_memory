@@ -94,7 +94,7 @@ class Loader:
         # normalise
         for name in self.unwindowed_dataset_names:
             self.unwindowed_datasets[name].loc[:, self.sensor_names] = self.scaler.transform(self.unwindowed_datasets[name][self.sensor_names])
-            if self.parameters.get('verbosity_level') > 0:
+            if self.parameters.get('verbosity_level') > 1:
                 print ('Normalised '+ str(name))
                 print (self.unwindowed_datasets[name][100:110])
 

@@ -30,7 +30,7 @@ class Parameters:
             'adaptive': True,
             'memory_size': 1000,
             'memory_update_probability': 0.0001,
-            'memory_update_strategy': MemUpdateStrategy.RANDOM,  # possible choices:  random, learning_progress
+            'memory_update_strategy': 'Random', # MemUpdateStrategy.RANDOM,  # possible choices:  random, learning_progress
             'batch_size': 32,
             'batchs_to_update_online': 3,
             'mse_test_dataset_fraction' : 20,  #   how many samples to use in the MSE calculations? dataset_size / this.
